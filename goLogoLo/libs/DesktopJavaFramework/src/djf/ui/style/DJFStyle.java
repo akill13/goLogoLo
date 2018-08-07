@@ -23,7 +23,8 @@ public class DJFStyle {
      * placed in a top toolbar.
      */
     public static final String CLASS_DJF_ICON_BUTTON = "djf_icon_button";
-
+    
+    public static final String CLASS_DJF_CHECK_BOX   =  "djf_check_box";
     
     /**
      * THE FOLLOWING STYLESHEET CLASSES ARE FOR THE WELCOME DIALOG
@@ -39,4 +40,5 @@ public class DJFStyle {
     public static final String CLASS_DJF_WELCOME_NEW_PANE = "djf_welcome_new_pane";
     
     public static final String CLASS_DJF_WELCOME_NEW_BUTTON = "djf_welcome_new_button";
+    
 }

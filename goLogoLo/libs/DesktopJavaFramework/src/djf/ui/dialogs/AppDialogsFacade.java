@@ -179,4 +179,9 @@ public class AppDialogsFacade {
         Optional<ButtonType> result = confirmationDialog.showAndWait();
         return result.get();
     }
+    
+    public static void showResizeDialog(AppTemplate app) {
+        AppResizeDialog rz = new AppResizeDialog(app);
+        rz.showAndWait();
+    }
 }

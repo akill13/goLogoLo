@@ -1,5 +1,6 @@
 package djf.modules;
 
+import djf.ui.controllers.AppImageController;
 import djf.ui.controllers.AppUndoController;
 import djf.ui.controllers.AppHelpController;
 import static djf.ui.style.DJFStyle.*;
@@ -21,7 +22,11 @@ import djf.ui.AppNodesBuilder;
 import java.net.URL;
 import java.util.HashMap;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 
 /**
@@ -42,6 +47,7 @@ public class AppGUIModule {
     protected AppHelpController helpController;
     protected AppKeyController keyController;
     protected AppUndoController undoController;
+    protected AppImageController imageController;
 
     // THIS IS THE APPLICATION WINDOW
     protected Stage primaryStage;
@@ -72,7 +78,8 @@ public class AppGUIModule {
 
     // THIS IS FOR THE HELP/LANGUAGE/ABOUT BUTTONS IF WE'RE USING THEM
     protected ToolBar helpToolbar;
-
+    
+    protected ToolBar imageToolbar;
     // THIS TITLE WILL GO IN THE TITLE BAR
     protected String appTitle;
 
@@ -275,10 +282,12 @@ public class AppGUIModule {
         if (props.isTrue(HAS_UNDO_TOOLBAR)) {
             initUndoToolbar();
         }
+        if(props.isTrue(HAS_IMAGE_TOOLBAR)){
+            initNavigationToolbar();
+        }
         if (props.isTrue(HAS_HELP_TOOLBAR)) {
             initHelpToolbar();
         }
-
     }
 
     private void initFileToolbar() {
@@ -321,6 +330,32 @@ public class AppGUIModule {
             exitButton.setOnAction(e -> {
                 fileController.processExitRequest();
             });
+        }
+    }
+    
+        private void initNavigationToolbar() {
+        imageToolbar = new ToolBar();
+        topToolbarPane.getChildren().add(imageToolbar);
+        imageController = new AppImageController(app);
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        if(props.isTrue(HAS_HOME)){
+            Button home = nodesBuilder.buildIconButton(HOME_BUTTON, null, imageToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        }
+        if(props.isTrue(HAS_ZOOM_IN)){
+            Button zoomIn = nodesBuilder.buildIconButton(ZOOM_IN_BUTTON, null, imageToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        }
+        if(props.isTrue(HAS_ZOOM_OUT)){
+            Button zoomOut = nodesBuilder.buildIconButton(ZOOM_OUT_BUTTON, null, imageToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        }
+        if(props.isTrue(HAS_RESIZE)){
+            Button resize = nodesBuilder.buildIconButton(RESIZE_BUTTON, null, imageToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+            resize.setOnAction(e->{
+                imageController.processResizeRequest();
+            });
+        }
+        if(props.isTrue(HAS_SNAP)) {
+            CheckBox snap = nodesBuilder.buildCheckBox(SNAP_BUTTON, null, imageToolbar, CLASS_DJF_CHECK_BOX, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+            Label snapLabel   = nodesBuilder.buildLabel(SNAP_LABEL, null, imageToolbar, null, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         }
     }
 

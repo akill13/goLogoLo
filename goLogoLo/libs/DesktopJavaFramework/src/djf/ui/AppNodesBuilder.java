@@ -7,6 +7,8 @@ import djf.modules.AppLanguageModule;
 import static djf.modules.AppLanguageModule.FILE_PROTOCOL;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
@@ -15,6 +17,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -61,7 +64,7 @@ public class AppNodesBuilder {
         // MAKE SURE THE LANGUAGE MANAGER HAS IT
         // SO THAT IT CAN CHANGE THE LANGUAGE AS NEEDED
         initLabeledNode(nodeId, checkBox);
-
+        
         // AND RETURN IT
         return checkBox;
     }
@@ -191,6 +194,22 @@ public class AppNodesBuilder {
         return box;
     }
     
+    public ScrollBar buildScrollBar(Object nodeId,
+            Pane parentPane,
+            ToolBar parentToolBar,
+            String styleClass,
+            boolean usesKeyHandler,
+            boolean focusTraversable,
+            boolean enabled){
+        
+        ScrollBar bar = new ScrollBar();
+        bar.setOrientation(Orientation.VERTICAL);
+        initNode(nodeId, bar, parentPane, parentToolBar, styleClass, usesKeyHandler, focusTraversable, enabled);
+        bar.setMin(0);
+        bar.setMax(200);
+        return bar;
+    }
+    
     public BorderPane buildBorderPane(Object nodeID,
               Pane parentPane,
               ToolBar parentToolBar,
@@ -199,6 +218,18 @@ public class AppNodesBuilder {
               boolean focusTraversable,
               boolean enabled){
         BorderPane pane = new BorderPane();
+        initNode(nodeID, pane, parentPane, parentToolBar, styleClass, usesKeyHandler, focusTraversable, enabled);
+        return pane;
+    }
+    
+    public Pane buildPane(Object nodeID,
+              Pane parentPane,
+              ToolBar parentToolBar,
+              String styleClass,
+              boolean usesKeyHandler,
+              boolean focusTraversable,
+              boolean enabled) {
+        Pane pane = new Pane();
         initNode(nodeID, pane, parentPane, parentToolBar, styleClass, usesKeyHandler, focusTraversable, enabled);
         return pane;
     }
@@ -373,6 +404,7 @@ public class AppNodesBuilder {
         tableView.getColumns().add(column);
         column.getStyleClass().add(styleClass);
         languageSettings.addLabeledControlProperty(nodeId.toString() + "_TEXT", column.textProperty());
+        column.setResizable(false);
         return column;
     }
 }

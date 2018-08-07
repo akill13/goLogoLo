@@ -15,23 +15,25 @@
         <property name="APP_EXPORT_PAGE"    value="index.html"></property>
         <property name="APP_HELP_PAGE"      value="Help.html"></property>
         <property name="APP_ABOUT_PAGE"     value="About.html"></property>
-	   <property name="APP_CSS"	    	value="logolo_style.css"></property>
+	    <property name="APP_CSS"	    	value="logolo_style.css"></property>
         <property name="APP_PATH_CSS"	    value="workspace/style/"></property>
         <property name="APP_PATH_EXPORT"    value="./export/"></property>
         <property name="APP_PATH_ICONS"     value="./images/icons/"></property>
         <property name="APP_PATH_IMAGES"    value="./images/"></property>
         <property name="APP_PATH_WEB"       value="./app_data/web/"></property>
-        <property name="PREF_WIDTH"         value="800"></property>
-        <property name="PREF_HEIGHT"        value="600"></property>
+        <property name="PREF_WIDTH"         value="1100"></property>
+        <property name="PREF_HEIGHT"        value="750"></property>
         <property name="START_MAXIMIZED"    value="true"></property>
-
+        <property name="SNAP_LABEL"         value="snap"></property>
         <!-- TOP TOOLBARS AND CONTROLS TO INCLUDE -->
         <property name="HAS_WELCOME_DIALOG"     value="true"></property>
         <property name="HAS_TOP_TOOLBAR"        value="true"></property>        
         <property name="HAS_FILE_TOOLBAR"       value="true"></property>
+        <property name="HAS_IMAGE_TOOLBAR"      value="true"></property>
         <property name="HAS_NEW"                value="true"></property>
         <property name="HAS_LOAD"               value="true"></property>
-        <property name="HAS_CLOSE"              value="true"></property>
+        <property name="HAS_CLOSE"              value="false"></property>
+        <property name="HAS_HOME"               value="true"></property>
         <property name="HAS_SAVE"               value="true"></property>
         <property name="HAS_SAVE_AS"            value="true"></property>
         <property name="HAS_EXPORT"             value="true"></property>
@@ -42,6 +44,11 @@
         <property name="HAS_HELP"               value="true"></property>
         <property name="HAS_LANGUAGE"           value="true"></property>
         <property name="HAS_ABOUT"              value="true"></property>
+        <property name="HAS_HOME"               value="true"></property>
+        <property name="HAS_ZOOM_IN"            value="true"></property>
+        <property name="HAS_ZOOM_OUT"           value="true"></property>
+        <property name="HAS_RESIZE"             value="true"></property>
+        <property name="HAS_SNAP"               value="true"></property>
 
         <!-- PROGRAM ICON FILES - FILE TOOLBAR -->        
         <property name="NEW_BUTTON_ICON"        value="New.png"></property>
@@ -51,6 +58,7 @@
         <property name="SAVE_AS_BUTTON_ICON"    value="SaveAs.png"></property>
         <property name="EXPORT_BUTTON_ICON"     value="Export.png"></property>
         <property name="EXIT_BUTTON_ICON"       value="Exit.png"></property>
+        
 
         <!-- PROGRAM ICON FILES - CUT/COPY/PASTE TOOLBAR -->        
         <property name="CUT_BUTTON_ICON"        value="Cut.png"></property>
@@ -65,7 +73,13 @@
         <property name="LANGUAGE_BUTTON_ICON"   value="Language.png"></property>
         <property name="HELP_BUTTON_ICON"       value="Help.png"></property>
         <property name="ABOUT_BUTTON_ICON"      value="About.png"></property>
-
+        
+        <!-- PROGRAM ICON FILES - IMAGE TOOLBAR -->
+        <property name="HOME_BUTTON_ICON"       value="ResetViewport.png"></property>
+        <property name="ZOOM_IN_BUTTON_ICON"           value="ZoomIn.png"></property>
+        <property name="ZOOM_OUT_BUTTON_ICON"          value="ZoomOut.png"></property>
+        <property name="RESIZE_BUTTON_ICON"            value="ResizeLogo.png"></property>
+        <property name="SNAP_BUTTON_ICON"              value=""></property>
         <!-- TDLM ITEM BUTTONS TOOLBAR -->
         <property name="GOLO_ADD_TEXT_BUTTON_ICON"       value="AddText.png"></property>
         <property name="GOLO_ADD_IMAGE_BUTTON_ICON"      value="AddImage.png"></property>
@@ -73,7 +87,15 @@
         <property name="GOLO_ADD_CIRCLE_BUTTON_ICON"      value="addCircle.png"></property>
         <property name="GOLO_ADD_TRIANGLE_BUTTON_ICON"   value="addTriangle.png"></property>
         <property name="GOLO_ADD_DELETE_BUTTON_ICON"      value="DeleteComponent.png"></property>
-        
+        <property name="GOLO_BOLD_TEXT_BUTTON_ICON"       value="Bold.png"></property>
+        <property name="GOLO_ITALICIS_TEXT_BUTTON_ICON"   value="Italics.png"></property>
+        <property name="GOLO_DECREASE_FONT_BUTTON_ICON"   value="sanscript.png"></property>
+        <property name="GOLO_INCREASE_FONT_BUTTON_ICON"   value="superscript.png"></property>
+        <property name="GOLO_UNDERLINE_TEXT_BUTTON_ICON"  value="Underline.png"></property>
+        <property name="BORDER_THICKNESS"                 value="border thickness"></property>
+        <property name="GOLO_UP_BUTTON_ICON"                   value="MoveCompUp.png"></property>
+        <property name="GOLO_DOWN_BUTTON_ICON"                 value="MoveCompDown.png"></property>
+        <property name="GOLO_EDIT_BUTTON_ICON"                 value="EditComp.png"></property>
         <!-- THIS IS THE FILE WE'LL USE TO MAKE OUR EXPORTED WEB FILE -->
         <property name="TDLM_EXPORT_TEMPLATE_FILE_NAME"  value="ToDoTemplate.html"></property>     
 
@@ -83,6 +105,10 @@
         <property name="KOREAN_ABBREVIATION"            value="KO"></property>
         <property name="SPANISH_ABBREVIATION"           value="ES"></property>
 
+        <property name="DEFAULT_SCRIPT"			value="Times New Roman"></property>
+        <property name="DEFAULT_SIZE"                   value="12"></property>
+        <property name="DEFAULT_CYCLE"                  value="NO_CYCLE"></property>
+
     </property_list>
     <property_options_list>
         <property_options name="LANGUAGE_OPTIONS">
@@ -90,5 +116,21 @@
             <option>Korean</option>
             <option>Spanish</option>
         </property_options>
+
+        <property_options name ="LIST">
+        	<option>Times New Roman</option>
+        	<option>Arial</option>
+        	<option>Calabri</option>
+        </property_options>
+
+        <property_options name ="SIZE">
+            <option>10</option>
+            <option>12</option>
+        </property_options>
+        
+        <property_options name ="CYCLE">
+            <option>NO_CYCLE</option>
+        </property_options>
+        
     </property_options_list>
 </properties>

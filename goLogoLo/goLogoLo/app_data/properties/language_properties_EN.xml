@@ -12,28 +12,32 @@
         <property name="WELCOME_DIALOG_TITLE"               value="Welcome to the goLogoLo"></property>
         <property name="WELCOME_DIALOG_RECENT_WORK_LABEL"   value="Recent Work"></property>
         <property name="WELCOME_DIALOG_NEW_BUTTON_TEXT"  value="Create a Logo"></property>
-
+        <property name="RESIZE_DIALOG_HEADER_TEXT"       value="Resize Logo"></property>
+        <property name="RESIZE_DIALOG_TITLE_TEXT"        value="Change Logo Dimensions"></property>
+        <property name="RESIZE_HEIGHT_TEXT"              value="Height"></property>
+        <property name="RESIZE_WIDTH_TEXT"               value="Width"></property>
         <!-- GENERIC APP ERROR MESSAGES -->
         <property name="APP_ERROR_TITLE"            value="Application Error"></property>
         <property name="APP_ERROR_CONTENT"          value="An Error Occured in the Application"></property>
-
+        
         <!-- PROPERTIES ERROR MESSAGES -->
         <property name="PROPERTIES_ERROR_TITLE"     value="Properties File Error"></property>
         <property name="PROPERTIES_ERROR_CONTENT"   value="There was an Error Loading a Properties File"></property>
-
+        <property name="SNAP_LABEL_TEXT"                 value="snap"></property>
+        
         <!-- FILE TOOLBAR TOOLTIPS -->
-        <property name="NEW_BUTTON_TOOLTIP"         value="New To Do List"></property>
-        <property name="LOAD_BUTTON_TOOLTIP"        value="Load To Do List"></property>
-        <property name="CLOSE_BUTTON_TOOLTIP"       value="Close To Do List"></property>
-        <property name="SAVE_BUTTON_TOOLTIP"        value="Save To Do List"></property>
-        <property name="EXPORT_BUTTON_TOOLTIP"      value="Export To Do List"></property>
+        <property name="NEW_BUTTON_TOOLTIP"         value="New Logo"></property>
+        <property name="LOAD_BUTTON_TOOLTIP"        value="Load Logo"></property>
+        <property name="CLOSE_BUTTON_TOOLTIP"       value="Close Logo"></property>
+        <property name="SAVE_BUTTON_TOOLTIP"        value="Save Logo"></property>
+        <property name="EXPORT_BUTTON_TOOLTIP"      value="Export Logo"></property>
         <property name="EXIT_BUTTON_TOOLTIP"        value="Exit"></property>
 
         <!-- CLIPBOARD TOOLBAR TOOLTIPS -->
         <property name="CUT_BUTTON_TOOLTIP"         value="Cut"></property>
         <property name="COPY_BUTTON_TOOLTIP"        value="Copy"></property>
         <property name="PASTE_BUTTON_TOOLTIP"       value="Paste"></property>
-
+        
         <!-- UNDO TOOLBAR TOOLTIPS -->
         <property name="UNDO_BUTTON_TOOLTIP"        value="Undo"></property>
         <property name="REDO_BUTTON_TOOLTIP"        value="Redo"></property>
@@ -66,49 +70,44 @@
         <property name="SAVE_VERIFY_CONTENT"	value="Would you like to save your unsaved work first?"></property>
 
         <!-- ABOUT DIALOG -->
-        <property name="ABOUT_TITLE"            value="About TDLM"></property>
-        <property name="ABOUT_CONTENT"          value="TDLM, the To Do List Maker - Debugging Enterprises - © 2017"></property>
+        <property name="ABOUT_TITLE"            value="About goLogoLo"></property>
+        <property name="ABOUT_CONTENT"          value="goLogoLo the logo maker - Debugging Enterprises - © 2018"></property>
 
 
         <!-- ENGLISH LANGUAGE SETTINGS SPECIFICALLY FOR TDLM CONTROLS -->
         
         <!-- LANGUAGE-DEPENDENT TEXT FOR WORKSPACE CONTROLS -->
-        <property name="TDLM_TO_DO_LIST_LABEL_TEXT"      value="@todo List"></property>
-        <property name="TDLM_NAME_LABEL_TEXT"            value="List Name:"></property>
-        <property name="TDLM_OWNER_LABEL_TEXT"           value="List Owner:"></property>
-        <property name="TDLM_ITEMS_LABEL_TEXT"           value="Items"></property>
-        <property name="TDLM_ADD_ITEM_BUTTON_TOOLTIP"    value="Add New Item"></property>
-        <property name="TDLM_REMOVE_ITEM_BUTTON_TOOLTIP" value="Remove Selected Item"></property>
-        <property name="TDLM_EDIT_ITEM_BUTTON_TOOLTIP"   value="Edit Selected Item"></property>
-        <property name="TDLM_MOVE_UP_BUTTON_TOOLTIP"     value="Move Selected Item Up"></property>
-        <property name="TDLM_MOVE_DOWN_BUTTON_TOOLTIP"   value="Move Selected Item Down"></property>
-        <property name="TDLM_CATEGORY_COLUMN_TEXT"       value="Category"></property>
-        <property name="TDLM_DESCRIPTION_COLUMN_TEXT"    value="Description"></property>
-        <property name="TDLM_START_DATE_COLUMN_TEXT"     value="Start Date"></property>
-        <property name="TDLM_END_DATE_COLUMN_TEXT"       value="End Date"></property>
-        <property name="TDLM_ASSIGNED_TO_COLUMN_TEXT"    value="Assigned To"></property>
-        <property name="TDLM_COMPLETED_COLUMN_TEXT"      value="Completed"></property>
+        <property name="GOLO_BORDER_THICKNESS_TEXT"      value="Border thickness:"></property>
+        <property name="GOLOR_COLOR_LABEL_TEXT"          value="Border Color:"></property>
+        <property name="GOLO_RADIUS_LABEL_TEXT"          value="Border Radius:"></property>
+        <property name="GOLO_GRADIENT_LABEL_TEXT"        value="Color Gradient:"></property>
+        <property name="GOLO_FOCUS_LABEL_TEXT"           value="Focus Angle:"></property>
+        <property name="GOLO_FOCUS_LABEL_DIST_TEXT"      value="Focus Distance:"></property>
+        <property name="GOLO_CENTER_LABEL_X_TEXT"        value="Center X:"></property>
+        <property name="GOLO_CENTER_LABEL_Y_TEXT"        value="Center Y:"></property>
+        <property name="GOLO_COLOR_RADIUS_LABEL_TEXT"    value="Radius:"></property>
+        <property name="GOLO_CYCLE_METHOD_TEXT"          value="Cycle Method:"></property>
+        <property name="GOLO_STOP_0_COLOR_TEXT"          value="Stop 0 Color:"></property>
+        <property name="GOLO_STOP_1_COLOR_TEXT"          value="Stop 1 Color:"></property>
+        <property name="GOLO_ORDER_COLUMN_TEXT"          value="Order"></property>
+        <property name="GOLO_NAME_COLUMN_TEXT"           value="Name"></property>
+        <property name="GOLO_TYPE_COLUMN_TEXT"                  value="Type"></property>
 
         <!-- LANGUAGE-DEPENDENT TEXT FOR ITEM DIALOG CONTROLS -->
-        <property name="TDLM_ITEM_DIALOG_HEADER_TEXT"               value="Add/Edit Items"></property>
-        <property name="TDLM_ITEM_DIALOG_ADD_HEADER_TEXT"           value="Add Item"></property>
-        <property name="TDLM_ITEM_DIALOG_EDIT_HEADER_TEXT"          value="Edit Item"></property>
-        <property name="TDLM_ITEM_DIALOG_CATEGORY_PROMPT_TEXT"      value="Category:"></property>
-        <property name="TDLM_ITEM_DIALOG_DESCRIPTION_PROMPT_TEXT"   value="Description:"></property>
-        <property name="TDLM_ITEM_DIALOG_START_DATE_PROMPT_TEXT"    value="Start Date:"></property>
-        <property name="TDLM_ITEM_DIALOG_END_DATE_PROMPT_TEXT"      value="End Date:"></property>
-        <property name="TDLM_ITEM_DIALOG_ASSIGNED_TO_PROMPT_TEXT"   value="Assigned To:"></property>
-        <property name="TDLM_ITEM_DIALOG_COMPLETED_PROMPT_TEXT"     value="Completed:"></property>
-        <property name="TDLM_ITEM_DIALOG_OK_BUTTON_TEXT"            value="OK"></property>
-        <property name="TDLM_ITEM_DIALOG_CANCEL_BUTTON_TEXT"        value="Cancel"></property>       
-       
+        <property name="OK_BUTTON_TEXT"                             value="OK"></property>
+        <property name="CANCEL_BUTTON_TEXT"                         value="Cancel"></property>
+        <property name="GOLO_HEADER_ADD_TXT_TEXT"                  value="Add Text"></property>
+        <property name="GOLO_TEXT_LABEL_TEXT"                       value="Add Text"></property>
+        <property name="GOLO_ITEM_DIALOG_OK_BUTTON_TEXT"            value="Ok"></property>
+        <property name="GOLO_ITEM_DIALOG_CANCEL_BUTTON_TEXT"        value="Cancel"></property>
+        <property name="GOLO_ITEM_NAME_TEXT"                        value="Add Name: "></property>
         <!-- TO SWITCH BACK TO ANOTHER LANGUAGE -->
         <property name="LANGUAGE_DIALOG_TITLE"          value="App Language Selection"></property>
         <property name="LANGUAGE_DIALOG_HEADER_TEXT"    value="Choose a Language"></property>
         <property name="LANGUAGE_DIALOG_CONTENT_TEXT"   value="Select a Language for the User Interface."></property>
 
-        <property name="WORK_FILE_EXT"          value="tdlm"></property>
-	<property name="WORK_FILE_EXT_DESC"     value="To Do List Maker Files"></property>
+        <property name="WORK_FILE_EXT"          value="golo"></property>
+	<property name="WORK_FILE_EXT_DESC"     value="GOLOGOLO Maker Files"></property>
 
     </property_list>
     

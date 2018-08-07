@@ -79,10 +79,14 @@ public class AppWelcomeDialog extends Stage {
                 String workPath = recentWork.getPath(workName);
                 File workFile = new File(workPath);
                 recentWork.startWork(workFile);
+                this.hide();
+                app.getGUIModule().getWindow().show();
+                app.getGUIModule().getWindow().toFront();
                 try {
                     app.getFileModule().loadWork(workFile);
                     this.hide();
                     app.getGUIModule().getWindow().show();
+                    
                 }
                 catch(IOException ioe) {
                     AppDialogsFacade.showMessageDialog(app.getGUIModule().getWindow(), LOAD_ERROR_TITLE, LOAD_ERROR_CONTENT);

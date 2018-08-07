@@ -22,16 +22,17 @@
         .djf_icon_button: buttons in the top toolbar panes
 **/
 .djf_top_toolbar {
-    -fx-background-color:   -swatch-neutral;
-    -fx-border-color:       -swatch-accent;
+    -fx-background-color:   rgb(193,222,230);
+    -fx-border-color:       rgb(193,222,230);
     -fx-border-width:       2;
     -fx-border-radius:      15;
 }
 .djf_toolbar_pane {
-    -fx-background-color:   -swatch-complement;
-    -fx-border-color:       -swatch-accent;
+    -fx-background-color:   rgb(193,222,230);
+    -fx-border-color:       rgb(0,0,0);
     -fx-border-width:       2;
     -fx-border-radius:      15;
+    -fx-font-size: 14pt;
 }
 .djf_icon_button {
     -fx-background-color:   transparent;
@@ -40,6 +41,12 @@
     -fx-min-height:         42;
     -fx-min-width:          42;
     -fx-padding:            0;
+}
+.djf_check_box {
+    -fx-background-color:   transparent;
+    -fx-pref-height:        42;
+    -fx-pref-width:         21;
+    -fx-min-width:          21;
 }
 .djf_icon_button:hover {
     -fx-background-color: linear-gradient(-swatch-primary-down, -swatch-primary-up);    
@@ -66,7 +73,7 @@
     -fx-text-fill: magenta;
 }
 .djf_welcome_recent_button:pressed {
-    -fx-text-fill: yellow;
+    -fx-text-fill: green;
 }
 .djf_welcome_new_pane {
     -fx-background-color:transparent;
@@ -94,8 +101,8 @@
     -fx-border: 1 1 0 0;
     -fx-border-color: black;
     -fx-border-radius: 10;
-    -fx-padding: 15 15 15 15;
-    -fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);
+    -fx-padding: 5;
+    -fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);
 }
 .golo_button {
     -fx-background-color: 
@@ -122,8 +129,12 @@
 .golo_canvas{
     -fx-border-color: black;
     -fx-background-color: rgb(255,255,255);
-    -fx-padding: 15 15 15 15;
+    -fx-padding: 5 5 5 5;
     
+}
+
+.golo_combo{
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
 .tdlm_text_button{
@@ -142,7 +153,7 @@
     -fx-border: 1 1 0 0;
     -fx-border-color: black;
     -fx-border-radius: 10;
-    -fx-padding: 15 15 15 15;
+    -fx-padding: 5 5 5 5;
     -fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);
 }
 
@@ -151,13 +162,11 @@
     -fx-border: 1 1 0 0;
     -fx-border-color: black;
     -fx-border-radius: 10;
-    -fx-padding: 15 15 15 15;
-    -fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);
+    -fx-padding: 5 5 5 5;
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+
 }
 
-.golo-pane {
-    -fx-spacing: 3 3 3 3;
-}
 .tdlm_big_header, .tdlm_small_header, .tdlm_prompt, .tdlm_text_field {
     -fx-font-weight: bold;
     -fx-padding: 10 10 10 10;
@@ -178,8 +187,26 @@
     -fx-min-width: 250px;
     -fx-max-width: 250px;
 }
-.tdlm_table {
-    -fx-font-size: 14pt;
+.golo_table {
+    -fx-font-size: 12pt;
+}
+.golo_clear{
+  /**  -fx-padding: 5; */
+    -fx-font-size: 10pt;
+}
+.golo_cavas{
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-border: 1 1 0 0;
+    -fx-border-color: black;
+    -fx-border-radius: 10;
+  /**  -fx-padding: 5 5 5 5; */
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}
+
+.golo_text{
+    -fx-font-weight: bold;
+    -fx-font-size: 10pt;
+
 }
 .column-header {
     -fx-font-size: 16pt;
@@ -189,6 +216,11 @@
     -fx-background-color: #777777;
     -fx-border-color: #777777;
 } 
+
+.golo_column{
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+}
 
 /* FOR DIALOGS */
 .tdlm_dialog_grid {
