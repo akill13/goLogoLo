@@ -6,6 +6,7 @@
 package gologolo.data;
 
 
+import gologolo.GoLogoLoApp;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
 
 
 /**
@@ -21,6 +23,7 @@ import javafx.scene.shape.*;
  * @author akillhalimi
  */
 public class GoLogoDataPrototype implements Cloneable {
+    public static int i;
     public static final int DEFAULT_WIDTH = 400;
     public static final int DEFAULT_HEIGHT = 200;
     public static final Color DEFAULT_COLOR = Color.WHITE;
@@ -33,6 +36,7 @@ public class GoLogoDataPrototype implements Cloneable {
     public static final int DEFAULT_GRADIENT_RADIUS = 0;
     public static final String DEFAULT_CYCLE_METHOD = "NO_CYCLE";
     public static final String DEFAULT_TEXT = "";
+    public static final String DEFAULT_NAME = "LOGO_DATA";
     
     final IntegerProperty width;
     final IntegerProperty height;
@@ -45,10 +49,14 @@ public class GoLogoDataPrototype implements Cloneable {
     final IntegerProperty centerY;
     final IntegerProperty gradientRadius;
     final StringProperty cycle;
+    final IntegerProperty order;
+    final StringProperty name;
+    final StringProperty type;
     public Node node;
     public GoLogoShape shapeBuilder = new GoLogoShape();
     GoLogoDataText text;
-    
+    public boolean shape;
+    GoLogoLoApp app;
     
     public GoLogoDataPrototype() {
         width = new SimpleIntegerProperty(DEFAULT_WIDTH);
@@ -63,9 +71,13 @@ public class GoLogoDataPrototype implements Cloneable {
         gradientRadius = new SimpleIntegerProperty(DEFAULT_GRADIENT_RADIUS);
         cycle = new SimpleStringProperty(DEFAULT_CYCLE_METHOD);
         node = null;
-        text = new GoLogoDataText(DEFAULT_TEXT);
+        text = null;
+        name = new SimpleStringProperty(DEFAULT_NAME);
+        order = new SimpleIntegerProperty();
+        type = new SimpleStringProperty();
+        shape = false;
     }
-    public GoLogoDataPrototype(int width, int height, String color, int thickness, int borderRadius, int angle, int distance, int centerX, int centerY, int gradientRadius, String cycle) {
+    public GoLogoDataPrototype(int width, int height, String color, int thickness, int borderRadius, int angle, int distance, int centerX, int centerY, int gradientRadius, String cycle, String name) {
         this();
         this.width.set(width);
         this.height.set(height);
@@ -78,8 +90,30 @@ public class GoLogoDataPrototype implements Cloneable {
         this.centerY.set(centerY);
         this.gradientRadius.set(gradientRadius);
         this.cycle.set(cycle);
+        this.name.set(name);
     }
-    
+
+    public GoLogoDataPrototype(int order, String name, String type) {
+        this();
+        this.order.set(order);
+        this.name.set(name);
+        this.type.set(type);
+    }
+    public GoLogoDataPrototype(String name, String type) {
+        this();
+        this.name.set(name);
+        this.type.set(type);
+    }
+    public GoLogoDataPrototype(int order, String name, String type, String text){
+        this();
+        this.name.set(name);
+        this.type.set(type);
+        this.text.setText(name);
+    }
+    public GoLogoDataPrototype(Node node){
+        this();
+        this.node=node;
+    }
     public int getWidth() {
         return width.get();
     }
@@ -124,8 +158,9 @@ public class GoLogoDataPrototype implements Cloneable {
         return cycle.get();
     }
     
-    public GoLogoDataPrototype buildDefaultRectangle() {    
-        this.node = shapeBuilder.buildRectangle();
+    public GoLogoDataPrototype buildDefaultRectangle(GoLogoLoApp app) {    
+        this.node = shapeBuilder.buildRectangle(app);
+        this.shape=true;
         return this;
     }
     
@@ -139,11 +174,55 @@ public class GoLogoDataPrototype implements Cloneable {
     public void setText(GoLogoDataText text){
         this.text = text;
     }
-    public Label getText() {
+    public Text getText() {
         return text;
     }
     public void setText(String text) {
         this.text.setText(text);
     }
-    
+    public void setName(String name){
+        this.name.set(name);
+    }
+    public String getName() {
+        return this.name.get();
+    }
+    public void setOrder(int order){
+        this.order.set(order);
+    }
+    public int getOrder(){
+        return order.get();
+    }
+    public void setType(String type){
+        this.type.set(type);
+    }
+    public String getType(){
+        return type.get();
+    }
+    public StringProperty nameProperty() {
+        return name;
+    }
+    public IntegerProperty orderProperty(){
+        return order;
+    }
+    public StringProperty typeProperty(){
+        return type;
+    }
+    public GoLogoDataPrototype buildDefaultText(String text, GoLogoLoApp app) {
+        this.text = new GoLogoDataText(text, app);
+        return this;
+    }
+    public void setNode(Node node) {
+        this.node=node;
+    }
+
+    public GoLogoDataPrototype clone() {
+     GoLogoDataPrototype clone = new GoLogoDataPrototype(name.getValue(),type.getValue());
+        if(this.text!=null){
+            clone.setText(this.text);
+        }
+        if(this.node!=null){
+            clone.setNode(node);
+        }
+     return clone;
+    }
 }

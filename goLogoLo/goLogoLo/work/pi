@@ -1,0 +1,10 @@
+
+{
+    "table":[
+        {
+            "order":1,
+            "name":"alpha",
+            "type":"Label"
+        }
+    ]
+}

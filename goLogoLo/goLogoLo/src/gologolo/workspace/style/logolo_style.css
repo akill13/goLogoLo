@@ -261,4 +261,7 @@
     -fx-background-radius: 50 50 50 50;
     -fx-background-color:-swatch-bright-accent;
 }
+.golo_arial{
+    -fx-font-family: Arial;
+}
 

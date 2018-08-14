@@ -165,6 +165,6 @@ public class AppFileModule {
         app.getGUIModule().getWindow().setTitle(title);
         
         // RESET THE UI CONTROLS
-        app.getFoolproofModule().updateAll();
+     //   app.getFoolproofModule().updateAll();
     }
 }

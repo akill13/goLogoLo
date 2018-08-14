@@ -13,4 +13,7 @@ public class MouseLocation {
     
     public static double x;
     public static double y;
+    
+    public static double origianlx;
+    public static double originaly;
 }

@@ -314,7 +314,7 @@ public class AppGUIModule {
             });
         }
         if (props.isTrue(HAS_SAVE)) {
-            Button saveButton = nodesBuilder.buildIconButton(SAVE_BUTTON, null, fileToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, DISABLED);
+            Button saveButton = nodesBuilder.buildIconButton(SAVE_BUTTON, null, fileToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
             saveButton.setOnAction(e -> {
                 fileController.processSaveRequest();
             });
@@ -367,9 +367,9 @@ public class AppGUIModule {
         topToolbarPane.getChildren().add(clipboardToolbar);
 
         // THIS IS AN ALL OR NOTHING TOOLBAR
-        Button cutButton = nodesBuilder.buildIconButton(CUT_BUTTON, null, clipboardToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, DISABLED);
-        Button copyButton = nodesBuilder.buildIconButton(COPY_BUTTON, null, clipboardToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, DISABLED);
-        Button pasteButton = nodesBuilder.buildIconButton(PASTE_BUTTON, null, clipboardToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, DISABLED);
+        Button cutButton = nodesBuilder.buildIconButton(CUT_BUTTON, null, clipboardToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        Button copyButton = nodesBuilder.buildIconButton(COPY_BUTTON, null, clipboardToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        Button pasteButton = nodesBuilder.buildIconButton(PASTE_BUTTON, null, clipboardToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
     }
 
     public void registerClipboardComponent() {

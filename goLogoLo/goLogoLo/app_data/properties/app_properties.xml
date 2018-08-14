@@ -119,8 +119,8 @@
 
         <property_options name ="LIST">
         	<option>Times New Roman</option>
-        	<option>Arial</option>
-        	<option>Calabri</option>
+        	<option>Arials</option>
+        	<option>Times</option>
         </property_options>
 
         <property_options name ="SIZE">

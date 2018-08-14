@@ -99,6 +99,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.BorderPane;
@@ -140,6 +141,9 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         TableColumn nameCategory                   = gologoMaker.buildTableColumn(GOLO_NAME_COLUMN, itemsTable, CLASS_GOLO_COLUMN);
         TableColumn typeCategory                   = gologoMaker.buildTableColumn(GOLO_TYPE_COLUMN, itemsTable, CLASS_GOLO_COLUMN);
         
+        orderCategory.setCellValueFactory(new PropertyValueFactory<Integer,String>("order"));
+        nameCategory.setCellValueFactory(new PropertyValueFactory<String,String>("name"));
+        typeCategory.setCellValueFactory(new PropertyValueFactory<String,String>("type"));
        
         HBox tableControls = gologoMaker.buildHBox(GOLO_BUTTON_DATA_PANE, left, null, CLASS_GOLO_BUTTON_PANE, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button up       =  gologoMaker.buildIconButton(GOLO_UP_BUTTON,              tableControls, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
@@ -201,7 +205,7 @@ public class GologoWorkspace extends AppWorkspaceComponent {
 	((BorderPane)workspace).setCenter(gologoPane);
         
         
-        LogoController itemsController = new LogoController((GoLogoLoApp) app);
+        LogoController itemsController = LogoController.getController((GoLogoLoApp) app);
         
         addSquare.setOnAction(e->{
             itemsController.processAddRectangle();
@@ -211,6 +215,21 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         });
         addText.setOnAction(e->{
             itemsController.processAddText();
+        });
+        edit.setOnAction(e->{
+            itemsController.processEdit();
+        });
+        discard.setOnAction(e->{
+            itemsController.processRemove(middle);
+        });
+        addImage.setOnAction(e->{
+            itemsController.processAddImage();
+        });
+        listText.setOnAction(e->{
+            itemsController.processChangeFont((String) listText.getValue());
+        });
+        fontSize.setOnAction(e->{
+            itemsController.processChangeSize((String) fontSize.getValue());
         });
     }
 

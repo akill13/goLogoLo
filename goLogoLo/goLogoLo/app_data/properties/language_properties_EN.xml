@@ -101,6 +101,7 @@
         <property name="GOLO_ITEM_DIALOG_OK_BUTTON_TEXT"            value="Ok"></property>
         <property name="GOLO_ITEM_DIALOG_CANCEL_BUTTON_TEXT"        value="Cancel"></property>
         <property name="GOLO_ITEM_NAME_TEXT"                        value="Add Name: "></property>
+        <property name="GOLO_ITEM_DIALOG_EDIT_HEADER_TEXT"          value="Edit Item"></property>
         <!-- TO SWITCH BACK TO ANOTHER LANGUAGE -->
         <property name="LANGUAGE_DIALOG_TITLE"          value="App Language Selection"></property>
         <property name="LANGUAGE_DIALOG_HEADER_TEXT"    value="Choose a Language"></property>

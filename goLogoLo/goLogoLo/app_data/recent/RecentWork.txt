@@ -1,1 +1,5 @@
-beta-alpha/beta
+epsilum-work/epsilum
+pi-work/pi
+tau-work/tau
+super-work/super
+beta-work/beta

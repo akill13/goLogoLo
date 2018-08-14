@@ -184,4 +184,5 @@ public class AppDialogsFacade {
         AppResizeDialog rz = new AppResizeDialog(app);
         rz.showAndWait();
     }
+
 }

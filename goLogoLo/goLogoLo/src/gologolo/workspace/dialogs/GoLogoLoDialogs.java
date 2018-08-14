@@ -10,6 +10,7 @@ import gologolo.GoLogoLoApp;
 import static gologolo.GoLogoPropertyType.GOLO_HEADER_ADD_TXT;
 import static gologolo.GoLogoPropertyType.GOLO_ITEM_DIALOG_BUTTON_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_ITEM_DIALOG_CANCEL_BUTTON;
+import static gologolo.GoLogoPropertyType.GOLO_ITEM_DIALOG_EDIT_HEADER_TEXT;
 import static gologolo.GoLogoPropertyType.GOLO_ITEM_DIALOG_OK_BUTTON;
 import static gologolo.GoLogoPropertyType.GOLO_ITEM_NAME;
 import static gologolo.GoLogoPropertyType.GOLO_ITEM_NAME_PANE;
@@ -46,6 +47,15 @@ import properties_manager.PropertiesManager;
 public class GoLogoLoDialogs extends Stage {
     GoLogoLoApp app;
     GridPane pane;
+    
+    GridPane editShape;
+    Scene editScene;
+    Label editName = new Label();
+    TextField uiEdit = new TextField();
+    HBox editButtons = new HBox();
+    Button editOk = new Button();
+    Button editCancel = new Button();
+    
     Scene scene;
     Label header = new Label();
     Label textLabel = new Label();
@@ -61,15 +71,35 @@ public class GoLogoLoDialogs extends Stage {
     GoLogoDataPrototype editingItem;
     GoLogoDataPrototype editItem;
     
-    EventHandler okEvent;
-    EventHandler cancelEvent;
-    EventHandler editOk;
+//    Label editShapeName = new Label();
+//    TextField nameEdit = new TextField();
+//    Button editOkShape = new Button();
+//    Button editCancel = new Button();
+//    HBox editPane = new HBox();
+    
     public GoLogoLoDialogs(GoLogoLoApp app) {
         this.app = app;
         pane = new GridPane();
         pane.getStylesheets().add(CLASS_GOLO_PANE);
-        
+        editShape = new GridPane();
         createDialogs();
+        scene = new Scene(pane);
+        this.setScene(scene);
+        editScene = new Scene(editShape);
+   //     this.setScene(editScene);
+        app.getGUIModule().initStylesheet(this);
+        scene.getStylesheets().add(CLASS_GOLO_PANE);
+        editScene.getStylesheets().add(CLASS_GOLO_PANE);
+        this.initOwner(app.getGUIModule().getWindow());
+        this.initModality(Modality.APPLICATION_MODAL);
+    }
+    
+    public GoLogoLoDialogs(GoLogoLoApp app, boolean shape) {
+        this.app = app;
+        pane = new GridPane();
+        pane.getStylesheets().add(CLASS_GOLO_PANE);
+        
+        createShapeDialog();
         scene = new Scene(pane);
         this.setScene(scene);
         
@@ -131,9 +161,9 @@ public class GoLogoLoDialogs extends Stage {
         });
     }
     
-    public Rectangle createRectangle() {
+    public Rectangle createRectangle(GoLogoLoApp app) {
         newData = new GoLogoDataPrototype();
-        newData = newData.buildDefaultRectangle();
+        newData = newData.buildDefaultRectangle(app);
        return (Rectangle) newData.getNode();
     }
     
@@ -153,16 +183,47 @@ public class GoLogoLoDialogs extends Stage {
         header.setText(headerText);
         setTitle(headerText);
         textTextField.setText("");
+        nameArea.setText("");
         editing = false;
         editingItem = null;
         showAndWait();
     }
+    public void showEditText(GoLogoDataPrototype editingItem){
+        this.setEditingItem(editingItem);
+        PropertiesManager pros = PropertiesManager.getPropertiesManager();
+        String headerText = pros.getProperty(GOLO_ITEM_DIALOG_EDIT_HEADER_TEXT);
+        header.setText(headerText);
+        
+        editing = true;
+        editItem =null;
+        
+        nameArea.setText(editingItem.getName());
+        textTextField.setText(editingItem.getText().getText());
+        
+        showAndWait();
+    }
     
+    public void showEditShape(GoLogoDataPrototype editingItem) {
+        this.setEditingItem(editingItem);
+        PropertiesManager pros = PropertiesManager.getPropertiesManager();
+        String headerText = pros.getProperty(GOLO_ITEM_DIALOG_EDIT_HEADER_TEXT);
+        header.setText(headerText);
+        
+        editing = true;
+        editItem =null;
+        
+        nameArea.setText(editingItem.getName());
+//        this.setScene(editScene);
+//        textTextField.setText(editingItem.getText().getText());
+        
+        showAndWait();
+    }
     public void processComplete() {
         String text = textTextField.getText();
+        String name = nameArea.getText();
         if(editing){
-            editingItem = new GoLogoDataPrototype();
             editingItem.setText(text);
+            editingItem.setName(name);
         }else{
             this.makeNewItem();
         }
@@ -171,8 +232,21 @@ public class GoLogoLoDialogs extends Stage {
     
     private void makeNewItem() {
         String text = textTextField.getText();
+        String name = nameArea.getText();
         newData = new GoLogoDataPrototype();
-        newData.setText(text);
+        newData = newData.buildDefaultText(text, app);
+        newData.setName(name);
         this.hide();
+    }
+    
+    public void setEditingItem(GoLogoDataPrototype editingItem) {
+        this.editingItem=editingItem;
+    }
+    public GoLogoDataPrototype getEditingItem(){
+        return editingItem;
+    }
+
+    private void createShapeDialog() {
+    
     }
 }
