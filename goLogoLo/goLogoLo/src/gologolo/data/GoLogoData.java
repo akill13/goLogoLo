@@ -68,7 +68,8 @@ public class GoLogoData implements AppDataComponent{
     
     public boolean isItemSelected() {
         ObservableList<GoLogoDataPrototype> selectedItems = this.getSelectedItems();
-        return (selectedItems != null) && (selectedItems.size() == 1);
+        ObservableList<Node> selectedNode = this.getPaneNodes();
+        return ((selectedItems != null) && (selectedItems.size() == 1)) || ((selectedNode != null ) && (selectedNode.size()==1));
     }
     public boolean areItemsSelected() {
         ObservableList<GoLogoDataPrototype> selectedItems = this.getSelectedItems();
@@ -166,4 +167,5 @@ public class GoLogoData implements AppDataComponent{
     public GoLogoLoApp getapp(){
         return app;
     }
+
 }

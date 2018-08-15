@@ -7,6 +7,7 @@ package gologolo.workspace.controllers;
 
 import djf.AppPropertyType;
 import gologolo.GoLogoLoApp;
+import static gologolo.GoLogoPropertyType.GOLO_DATA_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_IMAGE_PANE;
 import gologolo.data.GoLogoData;
 import gologolo.data.GoLogoDataPrototype;
@@ -16,6 +17,8 @@ import gologolo.data.MouseLocation;
 import gologolo.transactions.AddImage_Transaction;
 import gologolo.transactions.AddShape_Transaction;
 import gologolo.transactions.AddText_Transaction;
+import gologolo.transactions.AddUnderline_Transaction;
+import gologolo.transactions.BoldFont_Transaction;
 import gologolo.transactions.ChangeFont_Transaction;
 import gologolo.transactions.ChangeSize_Transaction;
 import gologolo.transactions.DeleteNode_Transaction;
@@ -33,12 +36,17 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableSelectionModel;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
@@ -152,7 +160,7 @@ public class LogoController {
             AddImage_Transaction trans = new AddImage_Transaction(logodata, data);
             app.processTransaction(trans);
         } catch (FileNotFoundException ex) {
-            
+            ex.printStackTrace();
         }     
     }
     
@@ -176,5 +184,78 @@ public class LogoController {
             ChangeSize_Transaction trans = new ChangeSize_Transaction(newfont, oldfont, changedata);
             app.processTransaction(trans);
         }
+    }
+    
+    public void processMouseIntersection(Node node) {
+        TableView table = (TableView) app.getGUIModule().getGUINode(GOLO_DATA_PANE);
+        TableSelectionModel selection = table.getSelectionModel();
+        ObservableList<GoLogoDataPrototype> list = table.getItems();
+        for(int i = 0; i<list.size(); i++) {
+            if(list.get(i).contains(node)){
+                selection.select(i);
+            }
+        }
+        
+    }
+    
+    public void processBoldChange() {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        if(data.getSelectedItem().getType().equals("Label")) {
+           GoLogoDataPrototype changedata = data.getSelectedItem();
+           Font oldFont = changedata.getText().getFont();
+           Font newFont = Font.font("Times New Roman", FontWeight.BOLD, oldFont.getSize());
+           BoldFont_Transaction trans = new BoldFont_Transaction(changedata, oldFont, newFont);
+           app.processTransaction(trans);
+        }
+    }
+    
+    public void processUnderLineChange() {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        if(data.getSelectedItem().getType().equals("Label")) {
+            GoLogoDataPrototype changedata = data.getSelectedItem();
+            AddUnderline_Transaction trans = new AddUnderline_Transaction(changedata);
+            app.processTransaction(trans);
+        }
+    }
+    
+    public void processItalicsChange() {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        if(data.getSelectedItem().getType().equals("Label")) {
+            GoLogoDataPrototype changedata = data.getSelectedItem();
+            AddUnderline_Transaction trans = new AddUnderline_Transaction(changedata);
+            app.processTransaction(trans);
+        }
+    }
+    
+    public void processAngle(Number oldval, Number newval) {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        GoLogoDataPrototype change = data.getSelectedItem();
+        if(change.shape) {
+          
+        }
+       
+    }
+    public void processFocus(Number oldval, Number newval) {
+        
+    }
+    public void processCenterX(Number oldval, Number newval) {
+        
+    }
+    public void processCenterY(Number oldval, Number newval) {
+        
+    }
+    public void processRadius(Number oldval, Number newval) {
+        
+    }
+
+    public void processCycle(String cycle) {
+        
+    }
+
+    public void processColor0Change(Color value) {
+      
+    }
+
+    public void processColor1Change(Color value) {
     }
 }

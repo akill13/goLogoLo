@@ -174,7 +174,7 @@ public class GoLogoDataPrototype implements Cloneable {
     public void setText(GoLogoDataText text){
         this.text = text;
     }
-    public Text getText() {
+    public GoLogoDataText getText() {
         return text;
     }
     public void setText(String text) {
@@ -224,5 +224,13 @@ public class GoLogoDataPrototype implements Cloneable {
             clone.setNode(node);
         }
      return clone;
+    }
+    
+    public boolean contains(Node node) {
+        if(this.getNode() != null)
+            return true;
+        else if (this.getText() != null)
+            return true;
+        return false;
     }
 }

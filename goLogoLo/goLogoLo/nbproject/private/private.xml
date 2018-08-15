@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/data/GoLogoShape.java</file>
-            <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/workspace/dialogs/GoLogoLoDialogs.java</file>
+            <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/GoLogoLoApp.java</file>
             <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/workspace/controllers/LogoController.java</file>
-            <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/GoLogoPropertyType.java</file>
+            <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/files/GoLogoFiles.java</file>
+            <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/data/GoLogoData.java</file>
             <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/data/GoLogoDataText.java</file>
             <file>file:/Users/akillhalimi/Documents/goLogoLo/goLogoLo/src/gologolo/workspace/GologoWorkspace.java</file>
         </group>

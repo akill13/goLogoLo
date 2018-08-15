@@ -87,6 +87,8 @@ import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_COLUMN;
 import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_PANE;
 import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_TABLE;
 import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_TEXT;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -101,6 +103,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -145,11 +148,11 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         nameCategory.setCellValueFactory(new PropertyValueFactory<String,String>("name"));
         typeCategory.setCellValueFactory(new PropertyValueFactory<String,String>("type"));
        
-        HBox tableControls = gologoMaker.buildHBox(GOLO_BUTTON_DATA_PANE, left, null, CLASS_GOLO_BUTTON_PANE, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        HBox tableControls = gologoMaker.buildHBox(    GOLO_BUTTON_DATA_PANE,       left,          null, CLASS_GOLO_BUTTON_PANE, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button up       =  gologoMaker.buildIconButton(GOLO_UP_BUTTON,              tableControls, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button down     =  gologoMaker.buildIconButton(GOLO_DOWN_BUTTON,            tableControls, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button edit     =  gologoMaker.buildIconButton(GOLO_EDIT_BUTTON,            tableControls, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
-        HBox buttonPane =  gologoMaker.buildHBox(      GOLO_BUTTON_PANE,            right,      null, CLASS_GOLO_BUTTON_PANE, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        HBox   buttonPane =  gologoMaker.buildHBox(    GOLO_BUTTON_PANE,            right,      null, CLASS_GOLO_BUTTON_PANE, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button addText  =  gologoMaker.buildIconButton(GOLO_ADD_TEXT_BUTTON,        buttonPane, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button addImage =  gologoMaker.buildIconButton(GOLO_ADD_IMAGE_BUTTON,       buttonPane, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button addSquare=  gologoMaker.buildIconButton(GOLO_ADD_SQUARE_BUTTON,      buttonPane, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
@@ -230,6 +233,45 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         });
         fontSize.setOnAction(e->{
             itemsController.processChangeSize((String) fontSize.getValue());
+        });
+        middle.addEventFilter(MouseEvent.MOUSE_CLICKED, e->{
+            if(e.getClickCount()==1 || e.getClickCount()==2){
+              Node source = (Node) e.getSource();
+               itemsController.processMouseIntersection(source);
+            }
+        });
+        boldText.setOnAction(e->{
+            itemsController.processBoldChange();
+        });
+        underLine.setOnAction(e->{
+            itemsController.processUnderLineChange();
+        });
+        italic.setOnAction(e->{
+            itemsController.processItalicsChange();
+        });
+        angle.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            itemsController.processAngle(old_val, new_val);
+        });
+        focusdist.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) ->{
+            itemsController.processFocus(old_val, new_val);
+        });
+        centerX.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            itemsController.processCenterX(old_val, new_val);
+        });
+        centerY.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            itemsController.processCenterY(old_val, new_val);
+        });
+        radius.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            itemsController.processRadius(old_val, new_val);
+        });
+        cycleColor.setOnAction(e->{
+            itemsController.processCycle((String) cycleColor.getValue());
+        });
+        stop0color.setOnAction(e->{
+            itemsController.processColor0Change(stop0color.getValue());
+        });
+        stop1color.setOnAction(e->{
+            itemsController.processColor1Change(stop1color.getValue());
         });
     }
 

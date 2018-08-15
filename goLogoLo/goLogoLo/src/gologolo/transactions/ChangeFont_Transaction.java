@@ -27,9 +27,7 @@ public class ChangeFont_Transaction implements jTPS_Transaction {
     }
     @Override
     public void doTransaction() {
-       System.out.println("Before: "+ changedata.getText().getFont());
        changedata.getText().setFont(font);
-       System.out.println("After: " + changedata.getText().getFont());
     }
 
     @Override

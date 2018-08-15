@@ -13,6 +13,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
@@ -28,6 +29,8 @@ GoLogoLoApp app;
 public GoLogoDataText(String text){
     super(text);
     this.text.setValue(text);
+    font = Font.font(13.0);
+    this.setFont(font);
 }
   public GoLogoDataText(String text, GoLogoLoApp app){
         this(text);
@@ -56,7 +59,7 @@ public GoLogoDataText(String text){
             this.setTranslateY(newTranslateY);
             this.setOnMouseReleased(x->{
                 
-                 DragItem_Transaction trans = new DragItem_Transaction(newTranslateX, newTranslateY, MouseLocation.origianlx, MouseLocation.originaly, app, this);
+                DragItem_Transaction trans = new DragItem_Transaction(newTranslateX, newTranslateY, MouseLocation.origianlx, MouseLocation.originaly, app, this);
                 app.processTransaction(trans);
             });
         });
@@ -71,8 +74,8 @@ public GoLogoDataText(String text){
         return new GoLogoDataText(text, app);
     }
     
-    public void setterofFont(Font newfont){
+    public void setTextFont(Font newfont){
         this.font=newfont;
-        this.setFont(font);
+        this.setFont(newfont);
     }
 }

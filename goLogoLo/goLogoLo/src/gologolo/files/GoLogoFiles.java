@@ -13,6 +13,7 @@ import gologolo.data.GoLogoData;
 import gologolo.data.GoLogoDataPrototype;
 import gologolo.data.GoLogoDataText;
 import gologolo.data.GoLogoShape;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,8 +27,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -114,7 +119,15 @@ public class GoLogoFiles implements AppFileComponent{
 
     @Override
     public void exportData(AppDataComponent data, String filePath) throws IOException {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      GoLogoData logodata = (GoLogoData)data;
+      Pane pane = (Pane)logodata.getapp().getGUIModule().getGUINode(GOLO_IMAGE_PANE);
+      WritableImage image = pane.snapshot(new SnapshotParameters(), null);
+      File file = new File(filePath);
+      try{
+          ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+      }catch(IOException e) {
+          e.printStackTrace();
+      }
     }
 
     @Override

@@ -6,27 +6,30 @@
 package gologolo.transactions;
 
 import gologolo.data.GoLogoDataPrototype;
+import gologolo.data.GoLogoDataText;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import jtps.jTPS_Transaction;
 
 /**
  *
  * @author akillhalimi
  */
-public class ChangeSize_Transaction implements jTPS_Transaction {
-    Font newfont;
-    Font oldfont;
+public class BoldFont_Transaction implements jTPS_Transaction {
     GoLogoDataPrototype changedata;
+    Font oldfont;
+    Font newfont;
     
-    public ChangeSize_Transaction(Font newfont, Font oldfont, GoLogoDataPrototype changedata) {
-        this.newfont=newfont;
-        this.oldfont=oldfont;
+    public BoldFont_Transaction(GoLogoDataPrototype changedata, Font oldfont, Font newfont) {
         this.changedata=changedata;
+        this.oldfont=oldfont;
+        this.newfont=newfont;
     }
-    
     @Override
     public void doTransaction() {
-       changedata.getText().setFont(newfont);
+        changedata.getText().setTextFont(newfont);
+        System.out.print(changedata.getText().getFont().getSize());
     }
 
     @Override
