@@ -11,11 +11,14 @@ import static gologolo.data.GoLogoDataPrototype.DEFAULT_HEIGHT;
 import static gologolo.data.GoLogoDataPrototype.DEFAULT_WIDTH;
 import gologolo.transactions.DragItem_Transaction;
 import gologolo.workspace.controllers.LogoController;
+import java.awt.MultipleGradientPaint;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.*;
 
 /**
@@ -28,16 +31,16 @@ LogoController controls = LogoController.getController();
 GoLogoLoApp app;
 
 public Rectangle buildRectangle(GoLogoLoApp app) {
+    
     this.app = app;
         Rectangle rectangle = new Rectangle();
         rectangle.setHeight(DEFAULT_HEIGHT);
         rectangle.setWidth(DEFAULT_WIDTH);
         rectangle.setX(90);
         rectangle.setY(200);
-        rectangle.setFill(DEFAULT_COLOR);
         rectangle.setStroke(Color.BLACK);
     shape = rectangle;
-    double resizeZone = rectangle.getTranslateX();
+    
     rectangle.setOnMousePressed(e->{
 //            this.clearSelected();
 //            rec.getStyleClass().add(CLASS_LOGO_RECTANGLES);
@@ -54,9 +57,6 @@ public Rectangle buildRectangle(GoLogoLoApp app) {
         
         rectangle.setOnMouseDragged(e->{
             
-            if(MouseLocation.x==resizeZone){
-                System.out.print("corner area");
-            }
             double offsetX = e.getSceneX() - MouseLocation.x;
             double offsetY = e.getSceneY() - MouseLocation.y;
             double newTranslateX = MouseLocation.origianlx + offsetX;

@@ -6,33 +6,30 @@
 package gologolo.transactions;
 
 import gologolo.data.GoLogoDataPrototype;
+import javafx.scene.text.Font;
 import jtps.jTPS_Transaction;
 
 /**
  *
  * @author akillhalimi
  */
-public class AddUnderline_Transaction implements jTPS_Transaction {
+public class Italics_Transaction implements jTPS_Transaction {
     GoLogoDataPrototype changedata;
-
-    public AddUnderline_Transaction(GoLogoDataPrototype changedata) {
+    Font oldfont;
+    Font newfont;
+    public Italics_Transaction(GoLogoDataPrototype changedata, Font oldfont, Font newfont) {
         this.changedata=changedata;
+        this.oldfont=oldfont;
+        this.newfont=newfont;
     }
     @Override
     public void doTransaction() {
-        if(!changedata.getText().isUnderline()) {
-            changedata.getText().setUnderline(true);
-        }else
-            changedata.getText().setUnderline(false);
-       
+      
     }
 
     @Override
     public void undoTransaction() {
-      if(changedata.getText().isUnderline()) {
-          changedata.getText().setUnderline(false);
-      }else
-          changedata.getText().setUnderline(true);
+    
     }
     
 }

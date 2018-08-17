@@ -29,12 +29,13 @@ public class BoldFont_Transaction implements jTPS_Transaction {
     @Override
     public void doTransaction() {
         changedata.getText().setTextFont(newfont);
-        System.out.print(changedata.getText().getFont().getSize());
+        changedata.getText().isBold =true;
     }
 
     @Override
     public void undoTransaction() {
         changedata.getText().setFont(oldfont);
+        changedata.getText().isBold=false;
     }
     
 }

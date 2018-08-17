@@ -7,13 +7,16 @@ package gologolo.data;
 
 
 import gologolo.GoLogoLoApp;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.RadialGradient;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 
@@ -29,11 +32,11 @@ public class GoLogoDataPrototype implements Cloneable {
     public static final Color DEFAULT_COLOR = Color.WHITE;
     public static final int DEFAULT_THICKNESS = 10;
     public static final int DEFAULT_BORDER_RADIUS = 10;
-    public static final int DEFAULT_FOCUS_ANGLE = 0;
-    public static final int DEFAULT_FOCUS_DISTANCE = 0;
-    public static final int DEFAULT_CENTER_X = 0;
-    public static final int DEFAULT_CENTER_Y = 0;
-    public static final int DEFAULT_GRADIENT_RADIUS = 0;
+    public static final double DEFAULT_FOCUS_ANGLE = 0;
+    public static final double DEFAULT_FOCUS_DISTANCE = 0;
+    public static final double DEFAULT_CENTER_X = 0;
+    public static final double DEFAULT_CENTER_Y = 0;
+    public static final double DEFAULT_GRADIENT_RADIUS = 0;
     public static final String DEFAULT_CYCLE_METHOD = "NO_CYCLE";
     public static final String DEFAULT_TEXT = "";
     public static final String DEFAULT_NAME = "LOGO_DATA";
@@ -41,13 +44,13 @@ public class GoLogoDataPrototype implements Cloneable {
     final IntegerProperty width;
     final IntegerProperty height;
     final StringProperty color;
-    final IntegerProperty thickness;
-    final IntegerProperty borderRadius;
-    final IntegerProperty angle;
-    final IntegerProperty distance;
-    final IntegerProperty centerX;
-    final IntegerProperty centerY;
-    final IntegerProperty gradientRadius;
+    final DoubleProperty thickness;
+    final DoubleProperty borderRadius;
+    final DoubleProperty angle;
+    final DoubleProperty distance;
+    final DoubleProperty centerX;
+    final DoubleProperty centerY;
+    final DoubleProperty gradientRadius;
     final StringProperty cycle;
     final IntegerProperty order;
     final StringProperty name;
@@ -55,6 +58,7 @@ public class GoLogoDataPrototype implements Cloneable {
     public Node node;
     public GoLogoShape shapeBuilder = new GoLogoShape();
     GoLogoDataText text;
+   
     public boolean shape;
     GoLogoLoApp app;
     
@@ -62,13 +66,13 @@ public class GoLogoDataPrototype implements Cloneable {
         width = new SimpleIntegerProperty(DEFAULT_WIDTH);
         height = new SimpleIntegerProperty(DEFAULT_HEIGHT);
         color  = new SimpleStringProperty(DEFAULT_COLOR.toString());
-        thickness = new SimpleIntegerProperty(DEFAULT_THICKNESS);
-        borderRadius = new SimpleIntegerProperty(DEFAULT_THICKNESS);
-        angle = new SimpleIntegerProperty(DEFAULT_FOCUS_ANGLE);
-        distance = new SimpleIntegerProperty(DEFAULT_FOCUS_DISTANCE);
-        centerX = new SimpleIntegerProperty(DEFAULT_CENTER_Y);
-        centerY = new SimpleIntegerProperty(DEFAULT_CENTER_Y);
-        gradientRadius = new SimpleIntegerProperty(DEFAULT_GRADIENT_RADIUS);
+        thickness = new SimpleDoubleProperty(DEFAULT_THICKNESS);
+        borderRadius = new SimpleDoubleProperty(DEFAULT_THICKNESS);
+        angle = new SimpleDoubleProperty(DEFAULT_FOCUS_ANGLE);
+        distance = new SimpleDoubleProperty(DEFAULT_FOCUS_DISTANCE);
+        centerX = new SimpleDoubleProperty(DEFAULT_CENTER_Y);
+        centerY = new SimpleDoubleProperty(DEFAULT_CENTER_Y);
+        gradientRadius = new SimpleDoubleProperty(DEFAULT_GRADIENT_RADIUS);
         cycle = new SimpleStringProperty(DEFAULT_CYCLE_METHOD);
         node = null;
         text = null;
@@ -126,31 +130,31 @@ public class GoLogoDataPrototype implements Cloneable {
         return color.get();
     }
     
-    public int getThickness() {
+    public double getThickness() {
         return thickness.get();
     }
     
-    public int getBorderRadius() {
+    public double getBorderRadius() {
         return borderRadius.get();
     }
     
-    public int getAngle() {
+    public double getAngle() {
         return angle.get();
     }
     
-    public int getDistance() {
+    public double getDistance() {
         return distance.get();
     }
     
-    public int getCenterX() {
+    public double getCenterX() {
         return centerX.get();
     }
     
-    public int getCenterY() {
+    public double getCenterY() {
         return centerY.get();
     }
     
-    public int getGradientRadius() {
+    public double getGradientRadius() {
         return gradientRadius.get();
     }
     
@@ -159,7 +163,7 @@ public class GoLogoDataPrototype implements Cloneable {
     }
     
     public GoLogoDataPrototype buildDefaultRectangle(GoLogoLoApp app) {    
-        this.node = shapeBuilder.buildRectangle(app);
+        this.node = new LogoRectangle(app);
         this.shape=true;
         return this;
     }

@@ -26,7 +26,8 @@ public class ChangeSize_Transaction implements jTPS_Transaction {
     
     @Override
     public void doTransaction() {
-       changedata.getText().setFont(newfont);
+        changedata.getText().setFont(newfont);
+        System.out.print("Inside do transaction : " + changedata.getText().getFont().toString());
     }
 
     @Override

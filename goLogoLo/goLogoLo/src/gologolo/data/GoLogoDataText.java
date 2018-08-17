@@ -25,11 +25,14 @@ public class GoLogoDataText extends Text implements Cloneable {
     LogoController controlls = LogoController.getController();
     StringProperty text = new SimpleStringProperty(DEFAULT_TEXT);
     Font font;
-GoLogoLoApp app;
+    GoLogoLoApp app;
+    public boolean isBold;
+    public boolean isItalics;
+    
 public GoLogoDataText(String text){
     super(text);
     this.text.setValue(text);
-    font = Font.font(13.0);
+    font = Font.font("Times New Roman", FontWeight.THIN, 12.0);
     this.setFont(font);
 }
   public GoLogoDataText(String text, GoLogoLoApp app){
