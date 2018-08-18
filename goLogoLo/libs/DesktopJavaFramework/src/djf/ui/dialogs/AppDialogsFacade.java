@@ -7,6 +7,7 @@ import static djf.AppTemplate.PATH_WORK;
 import djf.modules.AppRecentWorkModule;
 import djf.modules.AppLanguageModule;
 import djf.modules.AppLanguageModule.LanguageException;
+import djf.ui.AppNodesBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -180,8 +181,8 @@ public class AppDialogsFacade {
         return result.get();
     }
     
-    public static void showResizeDialog(AppTemplate app) {
-        AppResizeDialog rz = new AppResizeDialog(app);
+    public static void showResizeDialog(AppTemplate app, AppNodesBuilder builder) {
+        AppResizeDialog rz = new AppResizeDialog(app, builder);
         rz.showAndWait();
     }
 

@@ -172,6 +172,12 @@ public class GoLogoDataPrototype implements Cloneable {
         this.node = shapeBuilder.buildTriangle();
         return this;
     }
+    
+    public GoLogoDataPrototype buildDefaultCircle(GoLogoLoApp app) {
+        this.node = new LogoCircle(app);
+        this.shape=true;
+        return this;
+    }
     public Node getNode() {
         return node;
     }

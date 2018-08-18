@@ -6,8 +6,11 @@
 package gologolo.transactions;
 
 import gologolo.GoLogoLoApp;
+import static gologolo.GoLogoPropertyType.GOLO_BORDER_RADIUS_BOX;
 import gologolo.data.GoLogoDataPrototype;
+import gologolo.data.LogoCircle;
 import gologolo.data.LogoRectangle;
+import javafx.scene.control.Slider;
 import jtps.jTPS_Transaction;
 
 /**
@@ -25,27 +28,31 @@ public class ProcessRadi_Transaction implements jTPS_Transaction {
         this.radi=radi;
         if(change.getType().equals("Rectangle")) {
             LogoRectangle rect = (LogoRectangle)change.getNode();
-            this.oldradi=rect.getOldRadi();
+            this.oldradi=rect.getRadi();
         }
     }
     @Override
     public void doTransaction() {
         if(change.getType().equals("Rectangle")) {
             LogoRectangle rect = (LogoRectangle)change.getNode();
-            rect.setOldRadi(radi);
+            rect.setRadi(radi);
             rect.setArcHeight(radi);
             rect.setArcWidth(radi);
         }
+        Slider borderRadius = (Slider) app.getGUIModule().getGUINode(GOLO_BORDER_RADIUS_BOX);
+        borderRadius.setValue(radi);
     }
 
     @Override
     public void undoTransaction() {
         if(change.getType().equals("Rectangle")) {
             LogoRectangle rect = (LogoRectangle)change.getNode();
-            rect.setOldRadi(oldradi);
+            rect.setRadi(oldradi);
             rect.setArcHeight(oldradi);
             rect.setArcWidth(oldradi);
         }
+        Slider borderRadius = (Slider) app.getGUIModule().getGUINode(GOLO_BORDER_RADIUS_BOX);
+        borderRadius.setValue(oldradi);
     }
     
 }

@@ -34,23 +34,19 @@ public GoLogoDataText(String text){
     this.text.setValue(text);
     font = Font.font("Times New Roman", FontWeight.THIN, 12.0);
     this.setFont(font);
+    this.setX(100);
+    this.setY(100);
 }
   public GoLogoDataText(String text, GoLogoLoApp app){
         this(text);
         this.text.set(text);
         this.app=app;
         this.setOnMousePressed(e->{
-//            this.clearSelected();
-//            rec.getStyleClass().add(CLASS_LOGO_RECTANGLES);
-//            this.selectItem(items.get(nodes.indexOf(rec)));
             MouseLocation.x = e.getSceneX();
             MouseLocation.y = e.getSceneY();
             MouseLocation.origianlx = this.getTranslateX();
             MouseLocation.originaly = this.getTranslateY();
         });
-//        rectangle.setOnMouseClicked(e->{
-//            this.clearSelected();
-//        });
         
         this.setOnMouseDragged(e->{
             double offsetX = e.getSceneX() - MouseLocation.x;

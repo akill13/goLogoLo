@@ -17,9 +17,10 @@ public class EditShape_Transaction implements jTPS_Transaction {
     String oldName;
     String newName;
     
-    public EditShape_Transaction(String oldName, String newName){
+    public EditShape_Transaction(String oldName, String newName, GoLogoDataPrototype edit){
         this.oldName=oldName;
         this.newName=newName;
+        itemToEdit = edit;
     }
     @Override
     public void doTransaction() {

@@ -6,6 +6,7 @@
 package djf.ui.controllers;
 
 import djf.AppTemplate;
+import djf.ui.AppNodesBuilder;
 import djf.ui.dialogs.AppDialogsFacade;
 
 /**
@@ -14,12 +15,13 @@ import djf.ui.dialogs.AppDialogsFacade;
  */
 public class AppImageController {
     private AppTemplate app;
-    
-    public AppImageController(AppTemplate app) {
+    private AppNodesBuilder builder;
+    public AppImageController(AppTemplate app, AppNodesBuilder builder) {
         this.app = app;
+        this.builder=builder;
     }
     public void processResizeRequest(){
-       AppDialogsFacade.showResizeDialog(app);
-        
+       AppDialogsFacade.showResizeDialog(app, builder);
+      
     }
 }

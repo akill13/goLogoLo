@@ -39,7 +39,7 @@ public class LogoRectangle extends Rectangle {
     private RadialGradient rad;
     Color strokeColor = Color.BLACK;
     public double oldStrokeValue = 1.0;
-    double oldRadi = 0.0;
+    double radi = 0.0;
     public LogoRectangle() {
         
         rad = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, stop0, stop1);
@@ -49,12 +49,13 @@ public class LogoRectangle extends Rectangle {
         this.setWidth(DEFAULT_WIDTH);
         this.setX(90);
         this.setY(200);
-        this.setArcHeight(oldRadi);
-        this.setArcWidth(oldRadi);
+        this.setArcHeight(radi);
+        this.setArcWidth(radi);
         
     }
     public LogoRectangle(GoLogoLoApp app) {
         this();
+        
         this.app=app;
         this.setOnMousePressed(e->{
             MouseLocation.x = e.getSceneX();
@@ -62,9 +63,6 @@ public class LogoRectangle extends Rectangle {
             MouseLocation.origianlx = this.getTranslateX();
             MouseLocation.originaly = this.getTranslateY();
         });
-//        rectangle.setOnMouseClicked(e->{
-//            this.clearSelected();
-//        });
         
         this.setOnMouseDragged(e->{
             
@@ -173,11 +171,11 @@ public class LogoRectangle extends Rectangle {
     public void setStrokeColor(Color toSet) {
         strokeColor = toSet;
     }
-    public double getOldRadi() {
-        return oldRadi;
+    public double getRadi() {
+        return radi;
     }
-    public void setOldRadi(double radi) {
-        this.oldRadi=radi;
+    public void setRadi(double radi) {
+        this.radi=radi;
     }
     
 }

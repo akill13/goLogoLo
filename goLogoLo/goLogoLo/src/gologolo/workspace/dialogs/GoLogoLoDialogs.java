@@ -5,6 +5,7 @@
  */
 package gologolo.workspace.dialogs;
 
+
 import djf.modules.AppLanguageModule;
 import gologolo.GoLogoLoApp;
 import static gologolo.GoLogoPropertyType.GOLO_HEADER_ADD_TXT;
@@ -17,6 +18,7 @@ import static gologolo.GoLogoPropertyType.GOLO_ITEM_NAME_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_NAME_TEXT_FEILD;
 import static gologolo.GoLogoPropertyType.GOLO_TEXT_FEILD;
 import static gologolo.GoLogoPropertyType.GOLO_TEXT_LABEL;
+import static gologolo.GoLogoPropertyType.OK_BUTTON_RESIZE;
 import gologolo.data.GoLogoData;
 import gologolo.data.GoLogoDataPrototype;
 import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_DIALOG_BUTTON;
@@ -35,6 +37,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -47,7 +50,6 @@ import properties_manager.PropertiesManager;
 public class GoLogoLoDialogs extends Stage {
     GoLogoLoApp app;
     GridPane pane;
-    
     GridPane editShape;
     Scene editScene;
     Label editName = new Label();
@@ -70,12 +72,8 @@ public class GoLogoLoDialogs extends Stage {
     boolean editing;
     GoLogoDataPrototype editingItem;
     GoLogoDataPrototype editItem;
-    
-//    Label editShapeName = new Label();
-//    TextField nameEdit = new TextField();
-//    Button editOkShape = new Button();
-//    Button editCancel = new Button();
-//    HBox editPane = new HBox();
+    String newName;
+    String newText;
     
     public GoLogoLoDialogs(GoLogoLoApp app) {
         this.app = app;
@@ -86,12 +84,13 @@ public class GoLogoLoDialogs extends Stage {
         scene = new Scene(pane);
         this.setScene(scene);
         editScene = new Scene(editShape);
-   //     this.setScene(editScene);
+        
         app.getGUIModule().initStylesheet(this);
         scene.getStylesheets().add(CLASS_GOLO_PANE);
         editScene.getStylesheets().add(CLASS_GOLO_PANE);
         this.initOwner(app.getGUIModule().getWindow());
         this.initModality(Modality.APPLICATION_MODAL);
+        
     }
     
     public GoLogoLoDialogs(GoLogoLoApp app, boolean shape) {
@@ -99,7 +98,6 @@ public class GoLogoLoDialogs extends Stage {
         pane = new GridPane();
         pane.getStylesheets().add(CLASS_GOLO_PANE);
         
-        createShapeDialog();
         scene = new Scene(pane);
         this.setScene(scene);
         
@@ -201,23 +199,11 @@ public class GoLogoLoDialogs extends Stage {
         textTextField.setText(editingItem.getText().getText());
         
         showAndWait();
+        
+        newName = nameArea.getText();
+        newText = textTextField.getText();
     }
     
-    public void showEditShape(GoLogoDataPrototype editingItem) {
-        this.setEditingItem(editingItem);
-        PropertiesManager pros = PropertiesManager.getPropertiesManager();
-        String headerText = pros.getProperty(GOLO_ITEM_DIALOG_EDIT_HEADER_TEXT);
-        header.setText(headerText);
-        
-        editing = true;
-        editItem =null;
-        
-        nameArea.setText(editingItem.getName());
-//        this.setScene(editScene);
-//        textTextField.setText(editingItem.getText().getText());
-        
-        showAndWait();
-    }
     public void processComplete() {
         String text = textTextField.getText();
         String name = nameArea.getText();
@@ -246,7 +232,17 @@ public class GoLogoLoDialogs extends Stage {
         return editingItem;
     }
 
-    private void createShapeDialog() {
-    
+    public String getNewName() {
+       return newName;
+    }
+
+    public String getNewText() {
+        return newText;
+    }
+
+    public Circle createCircle(GoLogoLoApp app) {
+        newData = new GoLogoDataPrototype();
+        newData = newData.buildDefaultCircle(app);
+        return (Circle) newData.getNode();
     }
 }

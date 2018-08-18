@@ -5,6 +5,7 @@
  */
 package gologolo.workspace.controllers;
 
+import gologolo.transactions.ProcessCenterX_Transaction;
 import gologolo.transactions.ChangeCycle_Transaction;
 import djf.AppPropertyType;
 import gologolo.GoLogoLoApp;
@@ -17,6 +18,7 @@ import gologolo.data.GoLogoData;
 import gologolo.data.GoLogoDataPrototype;
 import gologolo.data.GoLogoDataText;
 import gologolo.data.GoLogoShape;
+import gologolo.data.LogoCircle;
 import gologolo.data.LogoRectangle;
 import gologolo.data.MouseLocation;
 import gologolo.data.SliderInformation;
@@ -44,6 +46,8 @@ import gologolo.transactions.ProcessIncreaseFont_Transaction;
 import gologolo.transactions.ProcessRadi_Transaction;
 import gologolo.transactions.ProcessRadius_Transaction;
 import gologolo.workspace.dialogs.GoLogoLoDialogs;
+import gologolo.workspace.dialogs.GoLogoLoEditDialog;
+import gologolo.workspace.dialogs.ResizeDialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -80,17 +84,21 @@ import javafx.scene.text.Text;
 public class LogoController {
     GoLogoLoApp app;
     GoLogoLoDialogs dialogs;
+    ResizeDialog resizeDialog;
     ObservableList<GoLogoDataPrototype> newDataList;
     Pane pane;
     MouseLocation location  = new MouseLocation();
     GoLogoLoDialogs shape;
     private static LogoController singleton = null;
     boolean selected;
+    GoLogoLoEditDialog shapeEdit;
     private LogoController(GoLogoLoApp app) {
         this.app = app;
         this.dialogs = new GoLogoLoDialogs(app);
         pane =  (Pane) app.getGUIModule().getGUINode(GOLO_IMAGE_PANE);
         this.shape = new GoLogoLoDialogs(app, true);
+        this.resizeDialog = new ResizeDialog(app);
+        shapeEdit = new GoLogoLoEditDialog(app);
     }
     
     public void processAddRectangle() {
@@ -129,16 +137,18 @@ public class LogoController {
             GoLogoDataPrototype itemToEdit = data.getSelectedItem();
             if(!itemToEdit.shape){ 
                 dialogs.showEditText(itemToEdit);
-            GoLogoDataPrototype edit = dialogs.getEditingItem();
-            if(edit != null){
-                EditText_Transaction trans = new EditText_Transaction(itemToEdit.getName(), itemToEdit.getText().getText(), edit.getName(), edit.getText().getText(), itemToEdit);
-                app.processTransaction(trans);
-            }
-        }else{
-                dialogs.showEditShape(itemToEdit);
                 GoLogoDataPrototype edit = dialogs.getEditingItem();
+                String newName = dialogs.getNewName();
+                String newText = dialogs.getNewText();
+                if(edit != null){
+                    EditText_Transaction trans = new EditText_Transaction(itemToEdit.getName(), itemToEdit.getText().getText(), newName, newText, itemToEdit);
+                    app.processTransaction(trans);
+                }
+            }else{
+                shapeEdit.showEditShape(itemToEdit);
+                GoLogoDataPrototype edit = shapeEdit.getEditingItem();
             if(edit != null){
-                EditShape_Transaction trans = new EditShape_Transaction(itemToEdit.getName(), edit.getName());
+                EditShape_Transaction trans = new EditShape_Transaction(itemToEdit.getName(), edit.getName(), edit);
                 app.processTransaction(trans);
             }     
         }
@@ -215,11 +225,8 @@ public class LogoController {
                 newfont = Font.font(oldfont.getName(), FontWeight.BOLD, size);
             }else
                 newfont = Font.font(oldfont.getName(), size);
-            System.out.println("Font before: " + oldfont.toString());
             ChangeSize_Transaction trans = new ChangeSize_Transaction(newfont, oldfont, changedata);
             app.processTransaction(trans);
-            System.out.println("Font after: suppose to be" + newfont.toString());
-            System.out.println("Actual " + changedata.getText().getFont().toString());
            
         }
     }
@@ -251,7 +258,7 @@ public class LogoController {
         }
     }
     
-    public void processUnderLineChange() {
+    public void processUnderLineChange(Color newColor) {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         if(data.getSelectedItem().getType().equals("Label")) {
             GoLogoDataPrototype changedata = data.getSelectedItem();
@@ -276,9 +283,7 @@ public class LogoController {
         GoLogoDataPrototype change = data.getSelectedItem();
         if(change.shape) {
          double newAngle = newval.doubleValue();
-         double oldAngle = oldval.doubleValue();
-         double og = ov.origianl;
-         ChangeAngle_Transaction trans = new ChangeAngle_Transaction(change, newAngle, oldAngle, og);
+         ChangeAngle_Transaction trans = new ChangeAngle_Transaction(change, newAngle, app);
          app.processTransaction(trans);
         }
     }
@@ -291,6 +296,10 @@ public class LogoController {
                 LogoRectangle rect = (LogoRectangle) change.getNode();
                 RadialGradient rad = new RadialGradient(newval.doubleValue(), rect.getFocusDistance(), rect.getCenterX(), rect.getCenterY(), rect.getRadius(), rect.isProportional(), rect.getCycleMethod(), rect.getStop0(), rect.getStop1());
                 rect.setFill(rad);
+            }else if(change.getType().equals("Circle")) {
+                LogoCircle circle = (LogoCircle) change.getNode();
+                RadialGradient rad = new RadialGradient(newval.doubleValue(), circle.getFocusDistance(), circle.getCenterX(), circle.getCenterY(), circle.getRadiusGrad(), circle.isProportional(), circle.getCycleMethod(), circle.getStop0(), circle.getStop1());
+                circle.setRad(rad);
             }
         }
     }
@@ -299,16 +308,39 @@ public class LogoController {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         GoLogoDataPrototype change = data.getSelectedItem();
         if(change.shape) {
-         double newAngle = newval.doubleValue();
-         double oldAngle = oldval.doubleValue();
-         double og = ov.origianl;
-         FocusDistance_Transaction trans = new FocusDistance_Transaction(change, newAngle, oldAngle, og);
+         double newValue = newval.doubleValue();
+         FocusDistance_Transaction trans = new FocusDistance_Transaction(change, newValue, app);
          app.processTransaction(trans);
         }
     }
     
     public void processFocus(Number oldval, Number newval, SliderInformation ov) {
-        
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        GoLogoDataPrototype change = data.getSelectedItem();
+        if(change.shape) {
+         double newAngle = newval.doubleValue();
+         double oldAngle = oldval.doubleValue();
+         if(change.getType().equals("Rectangle")) {
+             LogoRectangle rect = (LogoRectangle) change.getNode();
+             RadialGradient rad = new RadialGradient(rect.getFocusDistance(), newAngle, rect.getCenterX(), rect.getCenterY(), rect.getRadius(), rect.isProportional(), rect.getCycleMethod(), rect.getStop0(), rect.getStop1());
+             rect.setFill(rad);
+         }else if(change.getType().equals("Circle")) {
+             LogoCircle circle = (LogoCircle) change.getNode();
+             RadialGradient rad = new RadialGradient(circle.getFocusDistance(), newAngle, circle.getCenterX(), circle.getCenterY(), circle.getRadiusGrad(), circle.isProportional(), circle.getCycleMethod(), circle.getStop0(), circle.getStop1());
+             circle.setFill(rad);
+         }
+         
+        }
+    }
+    
+    public void processCenterXTran(Number oldval, Number newval) {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        GoLogoDataPrototype change = data.getSelectedItem();
+        if(change.shape) {
+         double newAngle = newval.doubleValue();
+         ProcessCenterX_Transaction trans = new ProcessCenterX_Transaction(change, newAngle, app);
+         app.processTransaction(trans);
+        }
     }
     
     public void processCenterX(Number oldval, Number newval) {
@@ -316,32 +348,70 @@ public class LogoController {
         GoLogoDataPrototype change = data.getSelectedItem();
         if(change.shape) {
          double newAngle = newval.doubleValue();
-         double oldAngle = oldval.doubleValue();
-         
-         ProcessCenterX_Transaction trans = new ProcessCenterX_Transaction(change, newAngle, oldAngle);
+            if(change.getType().equals("Rectangle")) {
+             LogoRectangle rect = (LogoRectangle) change.getNode();
+             RadialGradient rad = new RadialGradient(rect.getFocusAngle(), rect.getFocusDistance(), newAngle, rect.getCenterY(), rect.getRadius(), rect.isProportional(), rect.getCycleMethod(), rect.getStop0(), rect.getStop1());
+             rect.setFill(rad);
+            }else if(change.getType().equals("Circle")) {
+                LogoCircle circle = (LogoCircle)change.getNode();
+                RadialGradient rad = new RadialGradient(circle.getFocusAngle(), circle.getFocusDistance(), newAngle, circle.getCenterY(), circle.getRadiusGrad(), circle.isProportional(), circle.getCycleMethod(), circle.getStop0(), circle.getStop1());
+                circle.setFill(rad);
+            }
+        }
+    }
+    public void processCenterYTran(Number oldval, Number newval) {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        GoLogoDataPrototype change = data.getSelectedItem();
+        if(change.shape) {
+         double newAngle = newval.doubleValue();
+         ProcessCenterY_Transaction trans = new ProcessCenterY_Transaction(change, newAngle, app);
          app.processTransaction(trans);
         }
     }
+    
     public void processCenterY(Number oldval, Number newval) {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         GoLogoDataPrototype change = data.getSelectedItem();
         if(change.shape) {
          double newAngle = newval.doubleValue();
-         double oldAngle = oldval.doubleValue();
-         
-         ProcessCenterY_Transaction trans = new ProcessCenterY_Transaction(change, newAngle, oldAngle);
-         app.processTransaction(trans);
+         if(change.getType().equals("Rectangle")) {
+             LogoRectangle rect = (LogoRectangle) change.getNode();
+             RadialGradient rad = new RadialGradient(rect.getFocusAngle(), rect.getFocusDistance(), rect.getCenterX(),newAngle, rect.getRadius(), rect.isProportional(), rect.getCycleMethod(), rect.getStop0(), rect.getStop1());
+             rect.setFill(rad);
+         }else if(change.getType().equals("Circle")) {
+              LogoCircle circle = (LogoCircle)change.getNode();
+              RadialGradient rad = new RadialGradient(circle.getFocusAngle(), circle.getFocusDistance(), circle.getCenterX(), newAngle, circle.getRadiusGrad(), circle.isProportional(), circle.getCycleMethod(), circle.getStop0(), circle.getStop1());
+              circle.setFill(rad);
+         }
         }
     }
-    public void processRadius(Number oldval, Number newval) {
+    
+    public void processRadiusTrans(Number oldval, Number newval) {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         GoLogoDataPrototype change = data.getSelectedItem();
         if(change.shape) {
          double newAngle = newval.doubleValue();
          double oldAngle = oldval.doubleValue();
          
-         ProcessRadius_Transaction trans = new ProcessRadius_Transaction(change, newAngle, oldAngle);
+         ProcessRadius_Transaction trans = new ProcessRadius_Transaction(change, newAngle, app);
          app.processTransaction(trans);
+        }
+    }
+    
+    public void processRadius(Number oldval, Number newval) {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        GoLogoDataPrototype change = data.getSelectedItem();
+        if(change.shape) {
+            double newradius = newval.doubleValue();
+            if(change.getType().equals("Circle")) {
+                LogoCircle circle = (LogoCircle)change.getNode();
+                RadialGradient rad = new RadialGradient(circle.getFocusAngle(), circle.getFocusDistance(), circle.getCenterX(), circle.getCenterY(), newradius, circle.isProportional(), circle.getCycleMethod(), circle.getStop0(), circle.getStop1());
+                circle.setRad(rad);
+            }else if(change.getType().equals("Rectangle")) {
+                LogoRectangle rect = (LogoRectangle) change.getNode();
+                RadialGradient rad = new RadialGradient(rect.getFocusAngle(), rect.getFocusDistance(), rect.getCenterX(), rect.getCenterY(), newradius, rect.isProportional(), rect.getCycleMethod(), rect.getStop0(), rect.getStop1());
+                rect.setRad(rad);
+            }
         }
     }
 
@@ -351,12 +421,11 @@ public class LogoController {
         if(change.shape) {
             ChangeCycle_Transaction trans; 
             if(cycle.equals(CycleMethod.NO_CYCLE)){
-              trans = new ChangeCycle_Transaction(change,CycleMethod.NO_CYCLE);
+              trans = new ChangeCycle_Transaction(change,CycleMethod.NO_CYCLE, app);
             }else if(cycle.equals(CycleMethod.REFLECT.toString())){
-                trans = new ChangeCycle_Transaction(change,CycleMethod.REFLECT);
+                trans = new ChangeCycle_Transaction(change,CycleMethod.REFLECT, app);
             }else
-                trans = new ChangeCycle_Transaction(change,CycleMethod.REPEAT);
-            
+                trans = new ChangeCycle_Transaction(change,CycleMethod.REPEAT, app);
             app.processTransaction(trans);
         }
     }
@@ -364,11 +433,9 @@ public class LogoController {
     public void processColor0Change(Color value) {
       GoLogoData data = (GoLogoData)app.getDataComponent();
       GoLogoDataPrototype change = data.getSelectedItem();
-      LogoRectangle rect = (LogoRectangle) change.getNode();
-      Color oldColor = rect.getColor0();
       if(change.shape) {
-          ChangeStop0_Transaction trans = new ChangeStop0_Transaction(change, value,oldColor);
-          app.processTransaction(trans);
+            ChangeStop0_Transaction trans = new ChangeStop0_Transaction(change, value, app);
+            app.processTransaction(trans);
       }
     }
 
@@ -376,9 +443,7 @@ public class LogoController {
       GoLogoData data = (GoLogoData)app.getDataComponent();
       GoLogoDataPrototype change = data.getSelectedItem();
       if(change.shape) {
-          LogoRectangle rect = (LogoRectangle) change.getNode();
-          Color oldColor = rect.getColor1();
-          ChangeStop1_Transaction trans = new ChangeStop1_Transaction(change, value,oldColor);
+          ChangeStop1_Transaction trans = new ChangeStop1_Transaction(change, value, app);
           app.processTransaction(trans);
       } 
     }
@@ -437,20 +502,33 @@ public class LogoController {
       GoLogoDataPrototype change = data.getSelectedItem();
       if(change.shape) {
           if(change.getType().equals("Rectangle")) {
-              
-          }
-      }
+              LogoRectangle rect = (LogoRectangle) change.getNode();
+              rect.setArcHeight(newval.doubleValue());
+              rect.setArcWidth(newval.doubleValue());
+            }
+        }
     }
 
     public void processRadiusChangeTran(Number oldval, Number newval) {
       GoLogoData data = (GoLogoData)app.getDataComponent();
       GoLogoDataPrototype change = data.getSelectedItem();
       if(change.shape) {
-          if(change.getType().equals("Rectangle")) {
-            LogoRectangle rect = (LogoRectangle) change.getNode();
             ProcessRadi_Transaction trans = new ProcessRadi_Transaction(change, newval.doubleValue(), app);
             app.processTransaction(trans);
-          }
       }
+    }
+
+    public void openResizeDialog() {
+       resizeDialog.showResize();
+    }
+
+    public void processAddCircle() {
+        dialogs.createCircle(app);
+        GoLogoDataPrototype circle = dialogs.getNewItem();
+        if(circle.shape)
+            circle.setType("Circle");
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        AddShape_Transaction transaction = new AddShape_Transaction(data, circle);
+        app.processTransaction(transaction);
     }
 }

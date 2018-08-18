@@ -336,7 +336,7 @@ public class AppGUIModule {
         private void initNavigationToolbar() {
         imageToolbar = new ToolBar();
         topToolbarPane.getChildren().add(imageToolbar);
-        imageController = new AppImageController(app);
+        imageController = new AppImageController(app, nodesBuilder);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         if(props.isTrue(HAS_HOME)){
             Button home = nodesBuilder.buildIconButton(HOME_BUTTON, null, imageToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
@@ -349,9 +349,6 @@ public class AppGUIModule {
         }
         if(props.isTrue(HAS_RESIZE)){
             Button resize = nodesBuilder.buildIconButton(RESIZE_BUTTON, null, imageToolbar, CLASS_DJF_ICON_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
-            resize.setOnAction(e->{
-                imageController.processResizeRequest();
-            });
         }
         if(props.isTrue(HAS_SNAP)) {
             CheckBox snap = nodesBuilder.buildCheckBox(SNAP_BUTTON, null, imageToolbar, CLASS_DJF_CHECK_BOX, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);

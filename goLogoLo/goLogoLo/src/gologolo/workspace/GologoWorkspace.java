@@ -5,6 +5,14 @@
  */
 package gologolo.workspace;
 
+
+import static djf.AppPropertyType.HAS_HOME;
+
+import static djf.AppPropertyType.HOME_BUTTON;
+
+import static djf.AppPropertyType.OK_BUTTON_TEXT;
+import static djf.AppPropertyType.RESIZE_BUTTON;
+
 import static djf.AppPropertyType.ZOOM_IN_BUTTON;
 import static djf.AppPropertyType.ZOOM_OUT_BUTTON;
 import djf.AppTemplate;
@@ -66,6 +74,7 @@ import static gologolo.GoLogoPropertyType.GOLO_ITALICIS_TEXT_BUTTON;
 import static gologolo.GoLogoPropertyType.GOLO_NAME_COLUMN;
 import static gologolo.GoLogoPropertyType.GOLO_ORDER_COLUMN;
 import static gologolo.GoLogoPropertyType.GOLO_PANE;
+import static gologolo.GoLogoPropertyType.GOLO_PARENT_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_RADIUS_LABEL;
 import static gologolo.GoLogoPropertyType.GOLO_SIZE_CHOICE;
 import static gologolo.GoLogoPropertyType.GOLO_STOP_0_COLOR;
@@ -105,6 +114,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -117,6 +127,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
 
 import properties_manager.PropertiesManager;
 
@@ -143,16 +154,21 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         
         BorderPane gologoPane =  gologoMaker.buildBorderPane(GOLO_PANE,  null, null, CLASS_GOLO_BOX, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         VBox left       =  gologoMaker.buildVBox(GOLO_DATA_PANE,         null, null, CLASS_GOLO_BOX, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
-        Pane middle     =  gologoMaker.buildPane(GOLO_IMAGE_PANE,        null, null, CLASS_CANVAS, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        Pane parent     =  gologoMaker.buildPane(GOLO_PARENT_PANE,       null, null, null, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        Pane middle     =  gologoMaker.buildPane(GOLO_IMAGE_PANE,        parent, null, CLASS_CANVAS, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         VBox right      =  gologoMaker.buildVBox(GOLO_USER_TOOLS_PANE,   null, null, CLASS_GOLO_BOX, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         
+        middle.setMinSize(600, 700);
+        parent.layoutBoundsProperty().addListener((ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) -> {
+            parent.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+        });
         
         middle.layoutBoundsProperty().addListener((ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) -> {
             middle.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
         });
         gologoPane.setLeft(left);
         gologoPane.setRight(right);
-        gologoPane.setCenter(middle);
+        gologoPane.setCenter(parent);
         
          
         TableView<GoLogoDataPrototype> itemsTable  = gologoMaker.buildTableView(GOLO_DATA_PANE,       left,          null,   CLASS_GOLO_TABLE, HAS_KEY_HANDLER,    FOCUS_TRAVERSABLE,  true);
@@ -186,7 +202,7 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         Button   italic         = gologoMaker.buildIconButton(GOLO_ITALICIS_TEXT_BUTTON,  textBCombo,   null, CLASS_GOLO_BUTTON,HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button   sanscript      = gologoMaker.buildIconButton(GOLO_DECREASE_FONT_BUTTON,  textBCombo,   null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Button   superscript    = gologoMaker.buildIconButton(GOLO_INCREASE_FONT_BUTTON,textBCombo,   null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
-        Button   underLine      = gologoMaker.buildIconButton(GOLO_UNDERLINE_TEXT_BUTTON, textBCombo, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        ColorPicker underLine      = gologoMaker.buildColorPicker(GOLO_UNDERLINE_TEXT_BUTTON, textBCombo, null, CLASS_GOLO_BUTTON, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         
         VBox     border          = gologoMaker.buildVBox(GOLO_BORDER_PANE, right, null, CLASS_GOLO_BUTTON_PANE, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Label    thicknesslabel  = gologoMaker.buildLabel(GOLO_BORDER_THICKNESS, border, null, CLASS_CLEAR, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
@@ -229,9 +245,6 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         addSquare.setOnAction(e->{
             itemsController.processAddRectangle();
         });
-        addTri.setOnAction(e->{
-            itemsController.processTriangle();
-        });
         addText.setOnAction(e->{
             itemsController.processAddText();
         });
@@ -253,14 +266,14 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         middle.addEventFilter(MouseEvent.MOUSE_CLICKED, e->{
             if(e.getClickCount()==1 || e.getClickCount()==2){
               Node source = (Node) e.getPickResult().getIntersectedNode();
-               itemsController.processMouseIntersection(source);
+              itemsController.processMouseIntersection(source);
             }
         });
         boldText.setOnAction(e->{
             itemsController.processBoldChange();
         });
         underLine.setOnAction(e->{
-            itemsController.processUnderLineChange();
+            itemsController.processUnderLineChange((Color)underLine.getValue());
         });
         italic.setOnAction(e->{
             itemsController.processItalicsChange();
@@ -285,13 +298,31 @@ public class GologoWorkspace extends AppWorkspaceComponent {
             });
         });
         centerX.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-            itemsController.processCenterX(old_val, new_val);
+            centerX.setOnMouseDragged(e->{
+                itemsController.processCenterX(old_val, new_val);
+            });
+            
+            centerX.setOnMouseReleased(e->{
+                itemsController.processCenterXTran(old_val, new_val);
+            });
         });
         centerY.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-            itemsController.processCenterY(old_val, new_val);
+            centerY.setOnMouseDragged(e->{
+                itemsController.processCenterY(old_val, new_val);
+            });
+            centerY.setOnMouseReleased(e->{
+                itemsController.processCenterY(old_val, new_val);
+            });
         });
         radius.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-            itemsController.processRadius(old_val, new_val);
+            radius.setOnMouseDragged(e->{
+                itemsController.processRadius(old_val, new_val);
+            });
+            
+            radius.setOnMouseReleased(e->{
+                itemsController.processRadiusTrans(old_val, new_val);
+            });
+            
         });
         cycleColor.setOnAction(e->{
             itemsController.processCycle((String) cycleColor.getValue()); 
@@ -331,10 +362,28 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         });
         Button zoomIn = (Button) app.getGUIModule().getGUINode(ZOOM_IN_BUTTON);
         Button zoomOut = (Button) app.getGUIModule().getGUINode(ZOOM_OUT_BUTTON);
+        Button reset = (Button) app.getGUIModule().getGUINode(HOME_BUTTON);
         zoomIn.setOnAction(e->{
-           middle.setScaleX(1.5);
+           middle.setScaleX(middle.getScaleX()*2.0);
+           middle.setScaleY(middle.getScaleY()*2.0);
         });
-    }
+        zoomOut.setOnAction(e->{
+            middle.setScaleX(middle.getScaleX()*0.5);
+            middle.setScaleY(middle.getScaleY()*0.5);
+        });
+        reset.setOnAction(e->{
+            middle.setScaleX(1.0);
+            middle.setScaleY(1.0);
+        });
+        
+        Button resizeButton = (Button) app.getGUIModule().getGUINode(RESIZE_BUTTON);
+        resizeButton.setOnAction(e->{
+            itemsController.openResizeDialog();
+        });
+        addCirlce.setOnAction(e->{
+            itemsController.processAddCircle();
+        });
+     }
 
     @Override
     public void processWorkspaceKeyEvent(KeyEvent ke) {
