@@ -21,6 +21,7 @@ import static gologolo.data.GoLogoDataPrototype.DEFAULT_HEIGHT;
 import static gologolo.data.GoLogoDataPrototype.DEFAULT_WIDTH;
 import gologolo.transactions.DragItem_Transaction;
 import gologolo.workspace.controllers.LogoController;
+import java.util.LinkedList;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
@@ -34,7 +35,7 @@ import javafx.scene.shape.Circle;
  *
  * @author akillhalimi
  */
-public class LogoCircle extends Circle{
+public class LogoCircle extends Circle implements Cloneable {
     LogoController controls = LogoController.getController();
     GoLogoLoApp app;
     private double focusAngle = 0.0;
@@ -50,10 +51,12 @@ public class LogoCircle extends Circle{
     private Stop stop1 = new Stop(1, color1);
     private RadialGradient rad;
     Color strokeColor = Color.BLACK;
-    public double oldStrokeValue = 1.0;
+    public double oldStrokeValue;
     double oldRadi = 0.0;
     double circleRadius = 50.0;
-    
+    double xCoordinate;
+    double yCoordinate;
+    LinkedList<Double> hold = new LinkedList<>();
     public LogoCircle() {
         rad = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, stop0, stop1);
         this.setFill(rad);
@@ -61,6 +64,7 @@ public class LogoCircle extends Circle{
         this.setRadius(circleRadius);
         this.setTranslateX(50);
         this.setTranslateY(50);
+        this.oldStrokeValue=this.getStrokeWidth();
     }
     
     public LogoCircle(GoLogoLoApp app) {
@@ -84,35 +88,50 @@ public class LogoCircle extends Circle{
             this.setTranslateX(newTranslateX);
             this.setTranslateY(newTranslateY);
             this.setOnMouseReleased(x->{
-                
+                this.xCoordinate=newTranslateX;
+                this.yCoordinate=newTranslateY;
                 DragItem_Transaction trans = new DragItem_Transaction(newTranslateX, newTranslateY, MouseLocation.origianlx, MouseLocation.originaly, app, this);
                 app.processTransaction(trans);
             });
         });
         
-        this.setOnMouseReleased(e->{
-            Slider thickness = (Slider) app.getGUIModule().getGUINode(BORDER_THICKNESS_SLIDER);
-            ColorPicker color = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_BOX);
-            Slider angle = (Slider) app.getGUIModule().getGUINode(GOLO_ANGLE_BOX);
-            Slider focus = (Slider) app.getGUIModule().getGUINode(GOLO_FOCUS_DIST_SLIDER);
-            Slider centerXS = (Slider) app.getGUIModule().getGUINode(GOLO_CENTER_X_SLIDER);
-            Slider centerYS = (Slider) app.getGUIModule().getGUINode(GOLO_CENTER_Y_SLIDER);
-            Slider radiGrad = (Slider) app.getGUIModule().getGUINode(GOLO_COLOR_RADIUS_SLIDER);
-            ComboBox cycleMethodC = (ComboBox) app.getGUIModule().getGUINode(GOLO_CYCLE_BOX);
-            ColorPicker stop0C = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_STOP_0_PICKER);
-            ColorPicker stop1C = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_STOP_1_PICKER);
-            
-            thickness.setValue(this.strokeWidthProperty().doubleValue());
-            color.setValue(this.getStrokeColor());
-            angle.setValue(this.getFocusAngle());
-            focus.setValue(this.getFocusDistance());
-            centerXS.setValue(this.getCenterX());
-            centerYS.setValue(this.getCenterY());
-            radiGrad.setValue(this.getRadiusGrad());
-            cycleMethodC.setValue(this.getCycleMethod().toString());
-            stop0C.setValue(this.getColor0());
-            stop1C.setValue(this.getColor1());
+        this.setOnScroll(e->{
+            double zoom = 1.05;
+            double changeInY = e.getDeltaY();
+            if (changeInY < 0){
+                zoom = 2.0 - zoom;
+            }
+            hold.add(this.getRadius());
+            this.setRadius(this.getRadius()*zoom);
         });
+        this.setOnScrollFinished(e->{
+            ChangeSizeCircle_Transaction trans = new ChangeSizeCircle_Transaction(hold.pollLast(), this.getScaleY(), app, this);
+            app.processTransaction(trans);
+        });
+    }
+
+    public LogoCircle(GoLogoLoApp app, double focusAngle, double focusDistance, double centerX, double centerY, double radius, boolean proportional, CycleMethod cycleMethod, Stop color0, Stop color1, Color strokeColor, double xCoordinate, double yCoordinate, double borderThickness) {
+        this(app);
+        this.app=app;
+        this.focusAngle=focusAngle;
+        this.centerX=centerX;
+        this.centerY=centerY;
+        this.radius=radius;
+        this.proportional=proportional;
+        this.cycleMethod=cycleMethod;
+        this.stop0=color0;
+        this.stop1=color1;
+        this.strokeColor = strokeColor;
+        this.xCoordinate=xCoordinate;
+        this.yCoordinate=yCoordinate;
+        RadialGradient rad = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, color0, color1);
+        this.setRad(rad);
+        this.setFill(rad);
+        this.setTranslateX(xCoordinate);
+        this.setTranslateY(yCoordinate);
+        this.setStroke(strokeColor);
+        this.oldStrokeValue=borderThickness;
+        this.setStrokeWidth(borderThickness);
     }
 
     public LogoController getControls() {
@@ -251,4 +270,7 @@ public class LogoCircle extends Circle{
         this.oldRadi = oldRadi;
     }
     
+    public LogoCircle clone(GoLogoLoApp app, double focusAngle, double focusDistance, double centerX, double centerY, double radius, boolean proportional, CycleMethod cycleMethod, Stop color0, Stop color1, Color strokeColor, double xCoordinate, double yCoordinate, double borderThickness) {
+        return new LogoCircle(app, focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, color0, color1, strokeColor,xCoordinate, yCoordinate, borderThickness);
+    }
 }

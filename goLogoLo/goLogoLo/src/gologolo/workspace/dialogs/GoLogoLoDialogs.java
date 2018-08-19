@@ -74,6 +74,7 @@ public class GoLogoLoDialogs extends Stage {
     GoLogoDataPrototype editItem;
     String newName;
     String newText;
+    public static boolean cancelDispatched;
     
     public GoLogoLoDialogs(GoLogoLoApp app) {
         this.app = app;
@@ -155,6 +156,7 @@ public class GoLogoLoDialogs extends Stage {
         cancel.setOnAction(e->{
             editItem = null;
             newData = null;
+            GoLogoLoDialogs.cancelDispatched=true;
             this.hide();
         });
     }

@@ -10,13 +10,24 @@ import gologolo.transactions.ChangeCycle_Transaction;
 import djf.AppPropertyType;
 import gologolo.GoLogoLoApp;
 import static gologolo.GoLogoPropertyType.BORDER_THICKNESS_SLIDER;
+import static gologolo.GoLogoPropertyType.GOLO_ANGLE_BOX;
+import static gologolo.GoLogoPropertyType.GOLO_BORDER_RADIUS_BOX;
+import static gologolo.GoLogoPropertyType.GOLO_CENTER_X_SLIDER;
+import static gologolo.GoLogoPropertyType.GOLO_CENTER_Y_SLIDER;
+import static gologolo.GoLogoPropertyType.GOLO_COLOR_BOX;
+import static gologolo.GoLogoPropertyType.GOLO_COLOR_RADIUS_SLIDER;
+import static gologolo.GoLogoPropertyType.GOLO_COLOR_STOP_0_PICKER;
+import static gologolo.GoLogoPropertyType.GOLO_COLOR_STOP_1_PICKER;
+import static gologolo.GoLogoPropertyType.GOLO_CYCLE_BOX;
 import static gologolo.GoLogoPropertyType.GOLO_DATA_PANE;
+import static gologolo.GoLogoPropertyType.GOLO_FOCUS_DIST_SLIDER;
 import static gologolo.GoLogoPropertyType.GOLO_FONT_CHOICE;
 import static gologolo.GoLogoPropertyType.GOLO_IMAGE_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_SIZE_CHOICE;
 import gologolo.data.GoLogoData;
 import gologolo.data.GoLogoDataPrototype;
 import gologolo.data.GoLogoDataText;
+import gologolo.data.GoLogoImageData;
 import gologolo.data.GoLogoShape;
 import gologolo.data.LogoCircle;
 import gologolo.data.LogoRectangle;
@@ -25,7 +36,7 @@ import gologolo.data.SliderInformation;
 import gologolo.transactions.AddImage_Transaction;
 import gologolo.transactions.AddShape_Transaction;
 import gologolo.transactions.AddText_Transaction;
-import gologolo.transactions.AddUnderline_Transaction;
+import gologolo.transactions.AddColor_Transaction;
 import gologolo.transactions.BoldFont_Transaction;
 import gologolo.transactions.ChangeAngle_Transaction;
 import gologolo.transactions.ChangeFont_Transaction;
@@ -38,6 +49,7 @@ import gologolo.transactions.EditShape_Transaction;
 import gologolo.transactions.EditText_Transaction;
 import gologolo.transactions.FocusDistance_Transaction;
 import gologolo.transactions.Italics_Transaction;
+import gologolo.transactions.MoveItem_Transaction;
 import gologolo.transactions.ProcessBorderChange_Transaction;
 import gologolo.transactions.ProcessCenterY_Transaction;
 import gologolo.transactions.ProcessColorChange_Transaction;
@@ -58,11 +70,14 @@ import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.PickResult;
@@ -109,6 +124,7 @@ public class LogoController {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         AddShape_Transaction transaction = new AddShape_Transaction(data, rect);
         app.processTransaction(transaction);
+        
     }
     
     public void processTriangle() {
@@ -123,12 +139,17 @@ public class LogoController {
     
     public void processAddText() {
         dialogs.showAddText();
-        GoLogoDataPrototype text = dialogs.getNewItem();
-        if(!text.shape)
-            text.setType("Label");
-        GoLogoData data = (GoLogoData) app.getDataComponent();
-        AddText_Transaction trans = new AddText_Transaction(data, text);
-        app.processTransaction(trans);
+        if(!GoLogoLoDialogs.cancelDispatched){
+            GoLogoDataPrototype text = dialogs.getNewItem();
+            if(!text.shape){
+                text.setType("Label");
+            }
+            GoLogoData data = (GoLogoData) app.getDataComponent();
+            AddText_Transaction trans = new AddText_Transaction(data, text);
+            app.processTransaction(trans);
+        }
+        GoLogoLoDialogs.cancelDispatched=false;
+        app.getFoolproofModule().updateAll();
     }
     
     public void processEdit(){
@@ -182,14 +203,16 @@ public class LogoController {
     
     public void processAddImage(){
         File file = djf.ui.dialogs.AppDialogsFacade.showOpenDialog(dialogs, AppPropertyType.APP_TITLE);
-        System.out.println(file.getPath());
         String path = file.getAbsolutePath();
             FileInputStream imageLocation;
         try {
             imageLocation = new FileInputStream(file);
             Image image = new Image(imageLocation);
-            ImageView node = new ImageView(image);
+            GoLogoImageData node = new GoLogoImageData(image,app);
+            node.setPath(path);
             GoLogoDataPrototype data = new GoLogoDataPrototype(node);
+            data.imageNode=image;
+            data.setType("Image");
             GoLogoData logodata = (GoLogoData)app.getDataComponent();
             AddImage_Transaction trans = new AddImage_Transaction(logodata, data);
             app.processTransaction(trans);
@@ -225,7 +248,7 @@ public class LogoController {
                 newfont = Font.font(oldfont.getName(), FontWeight.BOLD, size);
             }else
                 newfont = Font.font(oldfont.getName(), size);
-            ChangeSize_Transaction trans = new ChangeSize_Transaction(newfont, oldfont, changedata);
+            ChangeSize_Transaction trans = new ChangeSize_Transaction(newfont, oldfont, changedata, app);
             app.processTransaction(trans);
            
         }
@@ -236,6 +259,7 @@ public class LogoController {
         Pane pane = (Pane)app.getGUIModule().getGUINode(GOLO_IMAGE_PANE);
         TableSelectionModel selection = table.getSelectionModel();
         ObservableList<GoLogoDataPrototype> list = table.getItems();
+        GoLogoData data = (GoLogoData) app.getDataComponent();
         int i;
         for(i = 0; i<pane.getChildren().size(); i++) {
             if(pane.getChildren().get(i).equals(node))
@@ -243,7 +267,64 @@ public class LogoController {
         }
         selection.clearSelection();
         selection.select(i);
-        
+        if(node instanceof LogoCircle) {
+            LogoCircle cy = (LogoCircle)node;
+            Slider thickness = (Slider) app.getGUIModule().getGUINode(BORDER_THICKNESS_SLIDER);
+            ColorPicker color = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_BOX);
+            Slider angle = (Slider) app.getGUIModule().getGUINode(GOLO_ANGLE_BOX);
+            Slider focus = (Slider) app.getGUIModule().getGUINode(GOLO_FOCUS_DIST_SLIDER);
+            Slider centerXS = (Slider) app.getGUIModule().getGUINode(GOLO_CENTER_X_SLIDER);
+            Slider centerYS = (Slider) app.getGUIModule().getGUINode(GOLO_CENTER_Y_SLIDER);
+            Slider radiGrad = (Slider) app.getGUIModule().getGUINode(GOLO_COLOR_RADIUS_SLIDER);
+            ComboBox cycleMethodC = (ComboBox) app.getGUIModule().getGUINode(GOLO_CYCLE_BOX);
+            ColorPicker stop0C = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_STOP_0_PICKER);
+            ColorPicker stop1C = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_STOP_1_PICKER);
+            
+            thickness.setValue(cy.strokeWidthProperty().doubleValue());
+            color.setValue(cy.getStrokeColor());
+            angle.setValue(cy.getFocusAngle());
+            focus.setValue(cy.getFocusDistance());
+            centerXS.setValue(cy.getCenterX());
+            centerYS.setValue(cy.getCenterY());
+            radiGrad.setValue(cy.getRadiusGrad());
+            cycleMethodC.setValue(cy.getCycleMethod().toString());
+            stop0C.setValue(cy.getColor0());
+            stop1C.setValue(cy.getColor1());
+        }else if(node instanceof LogoRectangle) {
+            LogoRectangle cy = (LogoRectangle)node;
+            Slider thickness = (Slider) app.getGUIModule().getGUINode(BORDER_THICKNESS_SLIDER);
+            Slider radius = (Slider) app.getGUIModule().getGUINode(GOLO_BORDER_RADIUS_BOX);
+            ColorPicker color = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_BOX);
+            Slider angle = (Slider) app.getGUIModule().getGUINode(GOLO_ANGLE_BOX);
+            Slider focus = (Slider) app.getGUIModule().getGUINode(GOLO_FOCUS_DIST_SLIDER);
+            Slider centerXS = (Slider) app.getGUIModule().getGUINode(GOLO_CENTER_X_SLIDER);
+            Slider centerYS = (Slider) app.getGUIModule().getGUINode(GOLO_CENTER_Y_SLIDER);
+            Slider radiGrad = (Slider) app.getGUIModule().getGUINode(GOLO_COLOR_RADIUS_SLIDER);
+            ComboBox cycleMethodC = (ComboBox) app.getGUIModule().getGUINode(GOLO_CYCLE_BOX);
+            ColorPicker stop0C = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_STOP_0_PICKER);
+            ColorPicker stop1C = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_STOP_1_PICKER);
+            
+            thickness.setValue(cy.strokeWidthProperty().doubleValue());
+            color.setValue(cy.getStrokeColor());
+            angle.setValue(cy.getFocusAngle());
+            focus.setValue(cy.getFocusDistance());
+            centerXS.setValue(cy.getCenterX());
+            centerYS.setValue(cy.getCenterY());
+            radiGrad.setValue(cy.getRadius());
+            cycleMethodC.setValue(cy.getCycleMethod().toString());
+            stop0C.setValue(cy.getColor0());
+            stop1C.setValue(cy.getColor1());
+            radius.setValue(cy.getRadi());
+        }else if(node instanceof GoLogoDataText) {
+            GoLogoDataText cy =(GoLogoDataText)node;
+            ComboBox size = (ComboBox) app.getGUIModule().getGUINode(GOLO_SIZE_CHOICE);
+            ComboBox font = (ComboBox) app.getGUIModule().getGUINode(GOLO_FONT_CHOICE);
+            ColorPicker clor = (ColorPicker) app.getGUIModule().getGUINode(GOLO_COLOR_BOX);
+            clor.setValue(cy.getFillColor());
+            size.setValue(Double.toString(cy.getFont().getSize()));
+            font.setValue((cy.getFont().getName()));
+        }
+        app.getFoolproofModule().updateAll();
     }
     
     public void processBoldChange() {
@@ -262,7 +343,7 @@ public class LogoController {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         if(data.getSelectedItem().getType().equals("Label")) {
             GoLogoDataPrototype changedata = data.getSelectedItem();
-            AddUnderline_Transaction trans = new AddUnderline_Transaction(changedata);
+            AddColor_Transaction trans = new AddColor_Transaction(changedata,app,newColor);
             app.processTransaction(trans);
         }
     }
@@ -475,6 +556,9 @@ public class LogoController {
           if(change.getType().equals("Rectangle")){
               ProcessBorderChange_Transaction trans = new ProcessBorderChange_Transaction(change, newVal.doubleValue(), app);
               app.processTransaction(trans);
+            }else if(change.getType().equals("Circle")) {
+            ProcessBorderChange_Transaction trans = new ProcessBorderChange_Transaction(change, newVal.doubleValue(), app);
+            app.processTransaction(trans);
             }
         }
     }
@@ -483,8 +567,13 @@ public class LogoController {
       GoLogoData data = (GoLogoData)app.getDataComponent();
       GoLogoDataPrototype change = data.getSelectedItem();
       if(change.shape) {
-         LogoRectangle rect = (LogoRectangle) change.getNode();
-         rect.setStrokeWidth(newVal.doubleValue());
+          if(change.getType().equals("Rectangle")) {
+              LogoRectangle rect = (LogoRectangle) change.getNode();
+              rect.setStrokeWidth(newVal.doubleValue());
+          }else{
+              LogoCircle circle = (LogoCircle)change.getNode();
+              circle.setStrokeWidth(newVal.doubleValue());
+          }
       }
     }
     
@@ -515,6 +604,8 @@ public class LogoController {
       if(change.shape) {
             ProcessRadi_Transaction trans = new ProcessRadi_Transaction(change, newval.doubleValue(), app);
             app.processTransaction(trans);
+            
+            app.getFoolproofModule().updateAll();
       }
     }
 
@@ -530,5 +621,39 @@ public class LogoController {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         AddShape_Transaction transaction = new AddShape_Transaction(data, circle);
         app.processTransaction(transaction);
+        
+        app.getFoolproofModule().updateAll();
+    }
+
+    public void processMoveUp() {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        if(data.isItemSelected()){
+            GoLogoDataPrototype change = data.getSelectedItem();
+            int oldIndex = data.getItemIndex(change);
+            if(oldIndex>0){
+               MoveItem_Transaction trans = new MoveItem_Transaction(data, oldIndex, oldIndex-1);
+               app.processTransaction(trans);
+               
+               data.selectItem(change);
+               
+               app.getFoolproofModule().updateAll();
+            }
+        }      
+    }
+
+    public void processMoveDown() {
+        GoLogoData data = (GoLogoData)app.getDataComponent();
+        if(data.isItemSelected()){
+            GoLogoDataPrototype change = data.getSelectedItem();
+            int oldIndex = data.getItemIndex(change);
+            if(oldIndex < (data.getNumItems()-1)){
+               MoveItem_Transaction trans = new MoveItem_Transaction(data, oldIndex, oldIndex+1);
+               app.processTransaction(trans);
+               
+               data.selectItem(change);
+               
+               app.getFoolproofModule().updateAll();
+            }
+        }
     }
 }

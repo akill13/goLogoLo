@@ -17,6 +17,8 @@ import static djf.AppPropertyType.ZOOM_IN_BUTTON;
 import static djf.AppPropertyType.ZOOM_OUT_BUTTON;
 import djf.AppTemplate;
 import djf.components.AppWorkspaceComponent;
+import djf.modules.AppFoolproofModule;
+import djf.modules.AppGUIModule;
 import static djf.modules.AppGUIModule.DISABLED;
 import static djf.modules.AppGUIModule.ENABLED;
 import static djf.modules.AppGUIModule.FOCUS_TRAVERSABLE;
@@ -65,6 +67,7 @@ import static gologolo.GoLogoPropertyType.GOLO_FOCUS_DIST_SLIDER;
 import static gologolo.GoLogoPropertyType.GOLO_FOCUS_LABEL;
 import static gologolo.GoLogoPropertyType.GOLO_FOCUS_LABEL_DIST;
 import static gologolo.GoLogoPropertyType.GOLO_FONT_CHOICE;
+import static gologolo.GoLogoPropertyType.GOLO_FOOLPROOF_SETTINGS;
 import static gologolo.GoLogoPropertyType.GOLO_GRADIENT_LABEL;
 import static gologolo.GoLogoPropertyType.GOLO_GRADIENT_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_IMAGE_CANVAS;
@@ -89,6 +92,7 @@ import gologolo.data.GoLogoData;
 import gologolo.data.GoLogoDataPrototype;
 import gologolo.data.SliderInformation;
 import gologolo.workspace.controllers.LogoController;
+import gologolo.workspace.foolproof.FoolProof;
 import static gologolo.workspace.style.gologoloStyle.CLASS_CANVAS;
 import static gologolo.workspace.style.gologoloStyle.CLASS_CLEAR;
 import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_BOX;
@@ -146,6 +150,8 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         super(initApp);
         
         createLayout();
+        
+        initFoolproofDesign();
     }
     
     private void createLayout() {
@@ -157,6 +163,19 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         Pane parent     =  gologoMaker.buildPane(GOLO_PARENT_PANE,       null, null, null, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         Pane middle     =  gologoMaker.buildPane(GOLO_IMAGE_PANE,        parent, null, CLASS_CANVAS, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
         VBox right      =  gologoMaker.buildVBox(GOLO_USER_TOOLS_PANE,   null, null, CLASS_GOLO_BOX, HAS_KEY_HANDLER, FOCUS_TRAVERSABLE, ENABLED);
+        
+        
+        middle.setOnScroll(e->{
+            
+            double zoom = 1.05;
+            double changeInY = e.getDeltaY();
+            if (changeInY < 0){
+                zoom = 2.0 - zoom;
+            }
+            middle.setScaleX( middle.getScaleX() *zoom);
+            middle.setScaleY( middle.getScaleY() * zoom);
+        });
+        
         
         middle.setMinSize(600, 700);
         parent.layoutBoundsProperty().addListener((ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) -> {
@@ -267,8 +286,10 @@ public class GologoWorkspace extends AppWorkspaceComponent {
             if(e.getClickCount()==1 || e.getClickCount()==2){
               Node source = (Node) e.getPickResult().getIntersectedNode();
               itemsController.processMouseIntersection(source);
+              
             }
         });
+        
         boldText.setOnAction(e->{
             itemsController.processBoldChange();
         });
@@ -383,6 +404,12 @@ public class GologoWorkspace extends AppWorkspaceComponent {
         addCirlce.setOnAction(e->{
             itemsController.processAddCircle();
         });
+        up.setOnAction(e->{
+            itemsController.processMoveUp();
+        });
+        down.setOnAction(e->{
+            itemsController.processMoveDown();
+        });
      }
 
     @Override
@@ -390,4 +417,9 @@ public class GologoWorkspace extends AppWorkspaceComponent {
 
     }
     
+    public void initFoolproofDesign() {
+        AppGUIModule gui = app.getGUIModule();
+        AppFoolproofModule foolproofSettings = app.getFoolproofModule();
+        foolproofSettings.registerModeSettings(GOLO_FOOLPROOF_SETTINGS, new FoolProof((GoLogoLoApp)app));
+    }
 }

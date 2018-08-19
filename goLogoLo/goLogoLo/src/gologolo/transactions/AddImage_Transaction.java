@@ -24,13 +24,13 @@ public class AddImage_Transaction implements jTPS_Transaction{
     }
     @Override
     public void doTransaction() {
-      data.getPaneNodes().add(itemToAdd.getNode());
+      data.getPaneNodes().add(itemToAdd.getImage());
       data.addItem(itemToAdd);
     }
 
     @Override
     public void undoTransaction() {
-        data.getPaneNodes().remove(itemToAdd.getNode());
+        data.getPaneNodes().remove(itemToAdd.getImage());
         data.removeItem(itemToAdd);
     }
     

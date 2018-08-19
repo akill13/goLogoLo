@@ -1,0 +1,23 @@
+
+{
+    "table":[
+        {
+            "order":"1",
+            "name":"LOGO_DATA",
+            "type":"Circle",
+            "circle_focus_angle":"0.0",
+            "circle_focus_distance":"0.0",
+            "circle_center_x":"0.0",
+            "circle_center_y":"0.0",
+            "circle_radius":"50.0",
+            "circle_proportional":"true",
+            "circle_cycle_method":"NO_CYCLE",
+            "circle_stop_0_color":"0xffffffff",
+            "circle_stop_1_color":"0xffffffff",
+            "circle_x_translate":"50.0",
+            "cicle_y_translate":"50.0",
+            "circle_border_thickness":"1.0",
+            "circle_stroke_color":"0x000000ff"
+        }
+    ]
+}

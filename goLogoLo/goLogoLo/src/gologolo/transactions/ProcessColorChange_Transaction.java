@@ -8,6 +8,7 @@ package gologolo.transactions;
 import gologolo.GoLogoLoApp;
 import static gologolo.GoLogoPropertyType.GOLO_COLOR_BOX;
 import gologolo.data.GoLogoDataPrototype;
+import gologolo.data.LogoCircle;
 import gologolo.data.LogoRectangle;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -37,7 +38,12 @@ public class ProcessColorChange_Transaction implements jTPS_Transaction {
             rect.setStroke(newcolor);
             rect.setStrokeColor(newcolor);
           }
-          
+          else if(change.getType().equals("Circle")) {
+              LogoCircle circle = (LogoCircle) change.getNode();
+              this.previous = circle.getStrokeColor();
+              circle.setStrokeColor(newcolor);
+              circle.setStroke(newcolor);
+          }
           ColorPicker picker = (ColorPicker)app.getGUIModule().getGUINode(GOLO_COLOR_BOX);
           picker.setValue(newcolor);
       }
@@ -47,7 +53,12 @@ public class ProcessColorChange_Transaction implements jTPS_Transaction {
     public void undoTransaction() {
         if(change.getType().equals("Rectangle")) {
             LogoRectangle rect = (LogoRectangle) change.getNode();
+            rect.setStrokeColor(previous);
             rect.setStroke(previous);
+        }else if(change.getType().equals("Circle")) {
+            LogoCircle circle = (LogoCircle)change.getNode();
+            circle.setStrokeColor(previous);
+            circle.setStroke(previous);
         }
      ColorPicker picker = (ColorPicker)app.getGUIModule().getGUINode(GOLO_COLOR_BOX);
      picker.setValue(previous);

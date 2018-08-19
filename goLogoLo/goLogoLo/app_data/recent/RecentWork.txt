@@ -1,3 +1,14 @@
+fill text-work/fill text
+asdasdasd-work/asdasdasd
+asdasd-work/asdasd
+circle-work/circle
+alpha1-work/alpha1.1
+beta1-work/beta1.1.1
+jasdjoabsjdbajsdb-work/jasdjoabsjdbajsdb
+loadingtest-work/loadingtest
+jasndjansd-work/jasndjansd
+moaosdasd-work/moaosdasd
+rectangle with thick border-work/rectangle with thick border
 epsilum-work/epsilum
 pi-work/pi
 tau-work/tau

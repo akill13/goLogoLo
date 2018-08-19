@@ -22,7 +22,7 @@ import javafx.scene.shape.Rectangle;
  *
  * @author akillhalimi
  */
-public class LogoRectangle extends Rectangle {
+public class LogoRectangle extends Rectangle implements Cloneable {
     LogoController controls = LogoController.getController();
     GoLogoLoApp app;
     private double focusAngle = 0.0;
@@ -38,8 +38,11 @@ public class LogoRectangle extends Rectangle {
     private Stop stop1 = new Stop(1, color1);
     private RadialGradient rad;
     Color strokeColor = Color.BLACK;
-    public double oldStrokeValue = 1.0;
+    public double oldStrokeWidth;
     double radi = 0.0;
+    
+    public double xCoordinate;
+    public double yCoordinate;
     public LogoRectangle() {
         
         rad = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, stop0, stop1);
@@ -51,7 +54,7 @@ public class LogoRectangle extends Rectangle {
         this.setY(200);
         this.setArcHeight(radi);
         this.setArcWidth(radi);
-        
+        this.oldStrokeWidth=this.getStrokeWidth();
     }
     public LogoRectangle(GoLogoLoApp app) {
         this();
@@ -62,6 +65,7 @@ public class LogoRectangle extends Rectangle {
             MouseLocation.y = e.getSceneY();
             MouseLocation.origianlx = this.getTranslateX();
             MouseLocation.originaly = this.getTranslateY();
+            
         });
         
         this.setOnMouseDragged(e->{
@@ -73,12 +77,42 @@ public class LogoRectangle extends Rectangle {
 
             this.setTranslateX(newTranslateX);
             this.setTranslateY(newTranslateY);
+            this.xCoordinate=newTranslateX;
+            this.yCoordinate=newTranslateY;
             this.setOnMouseReleased(x->{
                 
                 DragItem_Transaction trans = new DragItem_Transaction(newTranslateX, newTranslateY, MouseLocation.origianlx, MouseLocation.originaly, app, this);
                 app.processTransaction(trans);
             });
         });
+    }
+    
+    public LogoRectangle(GoLogoLoApp app, double focusAngle, double focusDistance, double centerX, double centerY, double radius, boolean proportional, CycleMethod cycleMethod, Stop color0, Stop color1, Color strokeColor, double radi, double xCoordinate, double yCoordinate, double borderThickness) {
+        this(app);
+        this.xCoordinate=xCoordinate;
+        this.yCoordinate=yCoordinate;
+        this.focusAngle=focusAngle;
+        this.focusDistance=focusDistance;
+        this.centerX=centerX;
+        this.centerY=centerY;
+        this.radius=radius;
+        this.proportional=proportional;
+        this.cycleMethod=cycleMethod;
+        this.stop0=color0;
+        this.stop1=color1;
+        this.strokeColor=strokeColor;
+        this.radi=radi;
+        RadialGradient rad = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, stop0, stop1);
+        this.setRad(rad);
+        this.setFill(rad);
+        this.setArcHeight(radi);
+        this.setArcWidth(radi);
+        this.setTranslateX(xCoordinate);
+        this.setTranslateY(yCoordinate);
+        this.oldStrokeWidth=borderThickness;
+        this.setStrokeWidth(borderThickness);
+        this.setStrokeColor(strokeColor);
+        
     }
     public double getFocusAngle() {
         return focusAngle;
@@ -177,5 +211,7 @@ public class LogoRectangle extends Rectangle {
     public void setRadi(double radi) {
         this.radi=radi;
     }
-    
+    public LogoRectangle clone(GoLogoLoApp app, double focusAngle, double focusDistance, double centerX, double centerY, double radius, boolean proportional, CycleMethod cycleMethod, Stop color0, Stop color1, Color strokeColor, double radi, double xCoordinate, double yCoordinate, double borderThickness) {
+        return new LogoRectangle(app,focusAngle, focusDistance, centerX, centerY, radius, proportional, cycleMethod, color0, color1, strokeColor, radi, xCoordinate, yCoordinate, borderThickness);
+    }
 }

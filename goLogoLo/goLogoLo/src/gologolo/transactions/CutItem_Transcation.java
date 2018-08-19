@@ -35,6 +35,7 @@ public class CutItem_Transcation implements jTPS_Transaction {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         cutItemLocations = data.removeAll(itemsToCut);
         pane.getChildren().removeAll(clipboardNodes);
+        data.upDateOrder();
     }
 
     @Override
@@ -42,6 +43,7 @@ public class CutItem_Transcation implements jTPS_Transaction {
         GoLogoData data = (GoLogoData)app.getDataComponent();
         data.addAll(itemsToCut, cutItemLocations);
         addAll(pane, cutItemLocations, clipboardNodes);
+        data.upDateOrder();
         
     }
     public void addAll(Pane pane, ArrayList<Integer> location, ArrayList<Node> clipboardNodes){

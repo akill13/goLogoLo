@@ -17,7 +17,9 @@ import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -34,7 +36,7 @@ public class GoLogoData implements AppDataComponent{
         TableView table  = (TableView) app.getGUIModule().getGUINode(GOLO_DATA_PANE);
         logoTable = table.getItems();
         itemSelectionModel = table.getSelectionModel();
-        itemSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+        itemSelectionModel.setSelectionMode(SelectionMode.SINGLE);
         Pane canvas = (Pane)app.getGUIModule().getGUINode(GOLO_IMAGE_PANE);
         panNodes = canvas.getChildren();
         
@@ -69,7 +71,7 @@ public class GoLogoData implements AppDataComponent{
     public boolean isItemSelected() {
         ObservableList<GoLogoDataPrototype> selectedItems = this.getSelectedItems();
         ObservableList<Node> selectedNode = this.getPaneNodes();
-        return ((selectedItems != null) && (selectedItems.size() == 1)) || ((selectedNode != null ) && (selectedNode.size()==1));
+        return ((selectedItems != null) && (selectedItems.size() == 1));
     }
     public boolean areItemsSelected() {
         ObservableList<GoLogoDataPrototype> selectedItems = this.getSelectedItems();
@@ -168,4 +170,17 @@ public class GoLogoData implements AppDataComponent{
         return app;
     }
 
+    public void moveItem(int oldIndex, int newIndex) {
+        GoLogoDataPrototype itemToMove = logoTable.remove(oldIndex);
+        logoTable.add(newIndex, itemToMove);
+        Node nodeToMove = panNodes.remove(oldIndex);
+        panNodes.add(newIndex, nodeToMove);
+        this.upDateOrder();
+    }
+    public void selectItem(GoLogoDataPrototype itemToSelect) {
+        this.itemSelectionModel.select(itemToSelect);
+    }
+    public int getNumItems() {
+        return logoTable.size();
+    }
 }

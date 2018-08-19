@@ -15,6 +15,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.shape.*;
@@ -58,7 +60,8 @@ public class GoLogoDataPrototype implements Cloneable {
     public Node node;
     public GoLogoShape shapeBuilder = new GoLogoShape();
     GoLogoDataText text;
-   
+    GoLogoImageData image;
+    public Image imageNode;
     public boolean shape;
     GoLogoLoApp app;
     
@@ -80,6 +83,7 @@ public class GoLogoDataPrototype implements Cloneable {
         order = new SimpleIntegerProperty();
         type = new SimpleStringProperty();
         shape = false;
+        image = null;
     }
     public GoLogoDataPrototype(int width, int height, String color, int thickness, int borderRadius, int angle, int distance, int centerX, int centerY, int gradientRadius, String cycle, String name) {
         this();
@@ -114,10 +118,16 @@ public class GoLogoDataPrototype implements Cloneable {
         this.type.set(type);
         this.text.setText(name);
     }
-    public GoLogoDataPrototype(Node node){
+    public GoLogoDataPrototype(GoLogoImageData image){
         this();
-        this.node=node;
+        this.image= image;
     }
+    
+    public GoLogoDataPrototype(String name, String type, GoLogoLoApp app) {
+        this(name, type);
+        this.app=app;
+    }
+    
     public int getWidth() {
         return width.get();
     }
@@ -226,12 +236,24 @@ public class GoLogoDataPrototype implements Cloneable {
     }
 
     public GoLogoDataPrototype clone() {
-     GoLogoDataPrototype clone = new GoLogoDataPrototype(name.getValue(),type.getValue());
+     GoLogoDataPrototype clone = new GoLogoDataPrototype(name.getValue(),type.getValue(), app);
         if(this.text!=null){
-            clone.setText(this.text);
+            clone.setText(this.text.clone(this.getText().getText(), app, this.text.getFont(), this.text.isBold, this.text.isItalics, this.text.xCoordinate, this.text.yCoordinate));
         }
         if(this.node!=null){
-            clone.setNode(node);
+            if(this.getType().equals("Rectangle")) {
+                LogoRectangle rect = (LogoRectangle)node;
+                LogoRectangle rectClone = rect.clone(app, rect.getFocusAngle(),rect.getFocusDistance(), rect.getCenterX(), rect.getCenterY(), rect.getRadius(), rect.isProportional(), rect.getCycleMethod(), rect.getStop0(), rect.getStop1(), rect.getStrokeColor(),rect.getRadi(),rect.xCoordinate, rect.yCoordinate, rect.oldStrokeWidth);
+                clone.setNode(rectClone);
+            }else if(this.getType().equals("Circle")) {
+                LogoCircle circle = (LogoCircle)node;
+                LogoCircle cicClone = circle.clone(app, circle.getFocusAngle(), circle.getFocusDistance(), circle.getCenterX(), circle.getCenterY(), circle.getRadiusGrad(), circle.isProportional(), circle.getCycleMethod() ,circle.getStop0(), circle.getStop1(), circle.getStrokeColor(), circle.xCoordinate, circle.yCoordinate, circle.oldStrokeValue);
+                clone.setNode(cicClone);
+            }  
+        }
+        if(this.image!=null) {
+            GoLogoImageData cloneImage = new GoLogoImageData(this.imageNode, app);
+            clone.setImage(cloneImage);
         }
      return clone;
     }
@@ -242,5 +264,13 @@ public class GoLogoDataPrototype implements Cloneable {
         else if (this.getText() != null)
             return true;
         return false;
+    }
+    
+    public GoLogoImageData getImage() {
+        return image;
+    }
+    
+    public void setImage(GoLogoImageData image) {
+        this.image=image;
     }
 }

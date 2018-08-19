@@ -30,6 +30,7 @@ public class GoLogoLoApp extends AppTemplate {
         Locale.setDefault(Locale.US);
         launch(args);
     }
+    
 
     @Override
     public AppClipboardComponent buildClipboardComponent(AppTemplate app) {
@@ -43,7 +44,7 @@ public class GoLogoLoApp extends AppTemplate {
 
     @Override
     public AppFileComponent buildFileComponent() {
-        return new GoLogoFiles(); //To change body of generated methods, choose Tools | Templates.
+        return new GoLogoFiles(this); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

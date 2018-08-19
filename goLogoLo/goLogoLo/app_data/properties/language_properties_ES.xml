@@ -9,31 +9,35 @@
         <!-- ENGLISH LANGUAGE SETTINGS FOR DESKTOP JAVA FRAMEWORK CONTROLS -->
 
         <!-- WELCOME DIALOG TEXT -->
-        <property name="WELCOME_DIALOG_TITLE"               value="Bienvenido al Creador de listas de tareas"></property>
+        <property name="WELCOME_DIALOG_TITLE"               value="Bienvenido a goLogoLo"></property>
         <property name="WELCOME_DIALOG_RECENT_WORK_LABEL"   value="Trabajo reciente"></property>
-        <property name="WELCOME_DIALOG_NEW_BUTTON_TEXT"  value="Crear una nueva lista de tareas pendientes"></property>
-
+        <property name="WELCOME_DIALOG_NEW_BUTTON_TEXT"  value="Crear un Logo"></property>
+        <property name="RESIZE_DIALOG_HEADER_TEXT"       value="Cambiar el tamaño del logotipo"></property>
+        <property name="RESIZE_DIALOG_TITLE_TEXT"        value="Cambiar las dimensiones del logotipo"></property>
+        <property name="RESIZE_HEIGHT_TEXT"              value="Altura"></property>
+        <property name="RESIZE_WIDTH_TEXT"               value="Anchura"></property>
         <!-- GENERIC APP ERROR MESSAGES -->
         <property name="APP_ERROR_TITLE"            value="Error de la aplicación"></property>
-        <property name="APP_ERROR_CONTENT"          value="Ocurrió un error en la aplicación"></property>
-
+        <property name="APP_ERROR_CONTENT"          value="Un error ocurrido en la aplicación"></property>
+        
         <!-- PROPERTIES ERROR MESSAGES -->
-        <property name="PROPERTIES_ERROR_TITLE"     value="Error de archivo de propiedades"></property>
+        <property name="PROPERTIES_ERROR_TITLE"     value="Properties File Error"></property>
         <property name="PROPERTIES_ERROR_CONTENT"   value="Hubo un error al cargar un archivo de propiedades"></property>
-
+        <property name="SNAP_LABEL_TEXT"            value="chasquido"></property>
+        
         <!-- FILE TOOLBAR TOOLTIPS -->
-        <property name="NEW_BUTTON_TOOLTIP"         value="Nueva lista de tareas pendientes"></property>
-        <property name="LOAD_BUTTON_TOOLTIP"        value="Cargar para hacer la lista"></property>
-        <property name="CLOSE_BUTTON_TOOLTIP"       value="Cerca de la lista"></property>
-        <property name="SAVE_BUTTON_TOOLTIP"        value="Guardar para hacer la lista"></property>
-        <property name="EXPORT_BUTTON_TOOLTIP"      value="Exportar a la lista de tareas"></property>
-        <property name="EXIT_BUTTON_TOOLTIP"        value="Salida"></property>
+        <property name="NEW_BUTTON_TOOLTIP"         value="Nuevo logotipo"></property>
+        <property name="LOAD_BUTTON_TOOLTIP"        value="Loa Logotipo"></property>
+        <property name="CLOSE_BUTTON_TOOLTIP"       value="Logotipo cerrado"></property>
+        <property name="SAVE_BUTTON_TOOLTIP"        value="Guardar logotipo"></property>
+        <property name="EXPORT_BUTTON_TOOLTIP"      value="Logotipo de exportación"></property>
+        <property name="EXIT_BUTTON_TOOLTIP"        value="Salir"></property>
 
         <!-- CLIPBOARD TOOLBAR TOOLTIPS -->
         <property name="CUT_BUTTON_TOOLTIP"         value="Cortar"></property>
-        <property name="COPY_BUTTON_TOOLTIP"        value="Dupdo"></property>
+        <property name="COPY_BUTTON_TOOLTIP"        value="Copia"></property>
         <property name="PASTE_BUTTON_TOOLTIP"       value="Pegar"></property>
-
+        
         <!-- UNDO TOOLBAR TOOLTIPS -->
         <property name="UNDO_BUTTON_TOOLTIP"        value="Deshacer"></property>
         <property name="REDO_BUTTON_TOOLTIP"        value="Rehacer"></property>
@@ -41,18 +45,18 @@
         <!-- HELP TOOLBAR TOOLTIPS -->
         <property name="HELP_BUTTON_TOOLTIP"        value="Ayuda"></property>
         <property name="LANGUAGE_BUTTON_TOOLTIP"    value="Cambiar idioma"></property>
-        <property name="ABOUT_BUTTON_TOOLTIP"       value="acerca"></property>
+        <property name="ABOUT_BUTTON_TOOLTIP"       value="acerca de"></property>
 
         <!-- NEW FEEDBACK DIALOGS -->	
         <property name="NEW_SUCCESS_TITLE"      value="Nuevo completo"></property>
         <property name="NEW_SUCCESS_CONTENT"	value="Trabajo creado pero aún no guardado"></property>
-        <property name="NEW_ERROR_TITLE"        value="Advertencia: error"></property>
+        <property name="NEW_ERROR_TITLE"        value="Warning: Error"></property>
         <property name="NEW_ERROR_CONTENT"      value="Se produjo un error al crear un nuevo trabajo."></property>
 
         <!-- LOAD FEEDBACK DIALOGS -->
         <property name="LOAD_WORK_TITLE"        value="Cargar trabajo"></property>
-        <property name="LOAD_SUCCESS_TITLE"     value="Carga completa"></property>
-        <property name="LOAD_SUCCESS_CONTENT"   value="El archivo se cargó con éxito y ahora se puede editar."></property>
+        <property name="LOAD_SUCCESS_TITLE"     value="Load Complete"></property>
+        <property name="LOAD_SUCCESS_CONTENT"   value="El archivo se cargó con éxito y ahora se puede editar"></property>
         <property name="LOAD_ERROR_TITLE"       value="Error de carga"></property>        
         <property name="LOAD_ERROR_CONTENT"     value="Cargando ha fallado Es probable que haya un problema de formato de archivo."></property>
 
@@ -62,53 +66,52 @@
         <property name="SAVE_SUCCESS_CONTENT"   value="El archivo está guardado"></property>
         <property name="SAVE_ERROR_TITLE"       value="Guardar error"></property>
         <property name="SAVE_ERROR_CONTENT"     value="El ahorro ha fallado. Probablemente debido a un problema de acceso a archivos."></property>
-        <property name="SAVE_VERIFY_TITLE"	value="¿Guardar trabajo no guardado?"></property>
-        <property name="SAVE_VERIFY_CONTENT"	value="¿Le gustaría guardar su trabajo no guardado primero?"></property>
+        <property name="SAVE_VERIFY_TITLE"	value="Guarde el trabajo no guardado?"></property>
+        <property name="SAVE_VERIFY_CONTENT"	value="Guarde el trabajo no guardado?"></property>
 
         <!-- ABOUT DIALOG -->
-        <property name="ABOUT_TITLE"            value="Acerca de TDLM"></property>
-        <property name="ABOUT_CONTENT"          value="TDLM, el creador de listas de tareas - Empresas de depuración - © 2017"></property>
+        <property name="ABOUT_TITLE"            value="Acera de goLogoLo"></property>
+        <property name="ABOUT_CONTENT"          value="goLogoLo the logo maker - Debugging Enterprises - © 2018"></property>
 
 
         <!-- ENGLISH LANGUAGE SETTINGS SPECIFICALLY FOR TDLM CONTROLS -->
         
         <!-- LANGUAGE-DEPENDENT TEXT FOR WORKSPACE CONTROLS -->
-        <property name="TDLM_TO_DO_LIST_LABEL_TEXT"      value="@todo Lista"></property>
-        <property name="TDLM_NAME_LABEL_TEXT"            value="Lista Nombre:"></property>
-        <property name="TDLM_OWNER_LABEL_TEXT"           value="Lista Propietario:"></property>
-        <property name="TDLM_ITEMS_LABEL_TEXT"           value="Artículos"></property>
-        <property name="TDLM_ADD_ITEM_BUTTON_TOOLTIP"    value="Agregar ítem nuevo"></property>
-        <property name="TDLM_REMOVE_ITEM_BUTTON_TOOLTIP" value="Remover item seleccionado"></property>
-        <property name="TDLM_EDIT_ITEM_BUTTON_TOOLTIP"   value="Editar elemento seleccionado"></property>
-        <property name="TDLM_MOVE_UP_BUTTON_TOOLTIP"     value="Mueva el elemento seleccionado hacia arriba"></property>
-        <property name="TDLM_MOVE_DOWN_BUTTON_TOOLTIP"   value="Mover el elemento seleccionado hacia abajo"></property>
-        <property name="TDLM_CATEGORY_COLUMN_TEXT"       value="Categoría"></property>
-        <property name="TDLM_DESCRIPTION_COLUMN_TEXT"    value="Descripción"></property>
-        <property name="TDLM_START_DATE_COLUMN_TEXT"     value="Fecha de inicio"></property>
-        <property name="TDLM_END_DATE_COLUMN_TEXT"       value="Fecha final"></property>
-        <property name="TDLM_ASSIGNED_TO_COLUMN_TEXT"    value="Asignado a"></property>
-        <property name="TDLM_COMPLETED_COLUMN_TEXT"      value="Terminado"></property>
+        <property name="GOLO_BORDER_THICKNESS_TEXT"      value="Espesor del borde:"></property>
+        <property name="GOLOR_COLOR_LABEL_TEXT"          value="Color del borde:"></property>
+        <property name="GOLO_RADIUS_LABEL_TEXT"          value="Radio de la frontera:"></property>
+        <property name="GOLO_GRADIENT_LABEL_TEXT"        value="Gradiente de color:"></property>
+        <property name="GOLO_FOCUS_LABEL_TEXT"           value="Ángulo de enfoque:"></property>
+        <property name="GOLO_FOCUS_LABEL_DIST_TEXT"      value="Distancia de enfoque:"></property>
+        <property name="GOLO_CENTER_LABEL_X_TEXT"        value="Centro X:"></property>
+        <property name="GOLO_CENTER_LABEL_Y_TEXT"        value="Centro Y:"></property>
+        <property name="GOLO_COLOR_RADIUS_LABEL_TEXT"    value="Radio:"></property>
+        <property name="GOLO_CYCLE_METHOD_TEXT"          value="Método de ciclo:"></property>
+        <property name="GOLO_STOP_0_COLOR_TEXT"          value="Detener el color 0"></property>
+        <property name="GOLO_STOP_1_COLOR_TEXT"          value="Detener el color 1"></property>
+        <property name="GOLO_ORDER_COLUMN_TEXT"          value="orden"></property>
+        <property name="GOLO_NAME_COLUMN_TEXT"           value="nombre"></property>
+        <property name="GOLO_TYPE_COLUMN_TEXT"           value="tipo"></property>
 
         <!-- LANGUAGE-DEPENDENT TEXT FOR ITEM DIALOG CONTROLS -->
-        <property name="TDLM_ITEM_DIALOG_HEADER_TEXT"               value="Agregar/Editar elementos"></property>
-        <property name="TDLM_ITEM_DIALOG_ADD_HEADER_TEXT"           value="Agregar ít"></property>
-        <property name="TDLM_ITEM_DIALOG_EDIT_HEADER_TEXT"          value="Editar ít"></property>
-        <property name="TDLM_ITEM_DIALOG_CATEGORY_PROMPT_TEXT"      value="Categoría:"></property>
-        <property name="TDLM_ITEM_DIALOG_DESCRIPTION_PROMPT_TEXT"   value="Descripción:"></property>
-        <property name="TDLM_ITEM_DIALOG_START_DATE_PROMPT_TEXT"    value="Fecha de inicio:"></property>
-        <property name="TDLM_ITEM_DIALOG_END_DATE_PROMPT_TEXT"      value="Fecha final:"></property>
-        <property name="TDLM_ITEM_DIALOG_ASSIGNED_TO_PROMPT_TEXT"   value="Asignado a:"></property>
-        <property name="TDLM_ITEM_DIALOG_COMPLETED_PROMPT_TEXT"     value="Terminado:"></property>
-        <property name="TDLM_ITEM_DIALOG_OK_BUTTON_TEXT"            value="De acuerdo"></property>
-        <property name="TDLM_ITEM_DIALOG_CANCEL_BUTTON_TEXT"        value="Cancelar"></property>       
-       
+        <property name="OK_BUTTON_RESIZE_TEXT"                             value="OK"></property>
+        <property name="CANCEL_BUTTON_RESIZE_TEXT"                         value="cancelar"></property>
+        <property name="GOLO_HEADER_ADD_TXT_TEXT"                  value="Añadir texto"></property>
+        <property name="GOLO_TEXT_LABEL_TEXT"                       value="Añadir texto"></property>
+        <property name="GOLO_ITEM_DIALOG_OK_BUTTON_TEXT"            value="Ok"></property>
+        <property name="GOLO_ITEM_DIALOG_CANCEL_BUTTON_TEXT"        value="cancelar"></property>
+        <property name="GOLO_ITEM_NAME_TEXT"                        value="agregar nombre: "></property>
+        <property name="GOLO_ITEM_DIALOG_EDIT_HEADER_TEXT"          value="Editar Item"></property>
+        <property name="EDIT_NAME_LABEL_TEXT"                       value="Editar nombre"></property>
+        <property name="OK_EDIT_BUTTON_TEXT"                        value="Ok"></property>
+        <property name="CANCEL_EDIT_BUTTON_TEXT"                    value="cancelar"></property>
         <!-- TO SWITCH BACK TO ANOTHER LANGUAGE -->
-        <property name="LANGUAGE_DIALOG_TITLE"          value="Selección del idioma de la aplicación"></property>
-        <property name="LANGUAGE_DIALOG_HEADER_TEXT"    value="Elija un idioma"></property>
-        <property name="LANGUAGE_DIALOG_CONTENT_TEXT"   value="Seleccione un idioma para la interfaz de usuario."></property>
+        <property name="LANGUAGE_DIALOG_TITLE"          value="App Language Selection"></property>
+        <property name="LANGUAGE_DIALOG_HEADER_TEXT"    value="elige un idioma"></property>
+        <property name="LANGUAGE_DIALOG_CONTENT_TEXT"   value="Select a Language for the User Interface."></property>
 
-        <property name="WORK_FILE_EXT"          value="tdlm"></property>
-	<property name="WORK_FILE_EXT_DESC"     value="To Do List Maker Files"></property>
+        <property name="WORK_FILE_EXT"          value="golo"></property>
+	<property name="WORK_FILE_EXT_DESC"     value="GOLOGOLO Maker Files"></property>
 
     </property_list>
     

@@ -86,7 +86,7 @@ public class GoLogoClipboard implements AppClipboardComponent {
     @Override
     public boolean hasSomethingToCut() {
         //To change body of generated methods, choose Tools | Templates.
-        return false;
+        return ((GoLogoData)app.getDataComponent()).isItemSelected();
     }
 
     @Override

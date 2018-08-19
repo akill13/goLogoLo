@@ -12,7 +12,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
@@ -28,10 +31,13 @@ public class GoLogoDataText extends Text implements Cloneable {
     GoLogoLoApp app;
     public boolean isBold;
     public boolean isItalics;
-    
+    public double xCoordinate;
+    public double yCoordinate;
+    Color fillColor;
 public GoLogoDataText(String text){
     super(text);
     this.text.setValue(text);
+    this.setText(text);
     font = Font.font("Times New Roman", FontWeight.THIN, 12.0);
     this.setFont(font);
     this.setX(100);
@@ -57,7 +63,8 @@ public GoLogoDataText(String text){
             this.setTranslateX(newTranslateX);
             this.setTranslateY(newTranslateY);
             this.setOnMouseReleased(x->{
-                
+            this.xCoordinate=newTranslateX;
+            this.yCoordinate=newTranslateY;
                 DragItem_Transaction trans = new DragItem_Transaction(newTranslateX, newTranslateY, MouseLocation.origianlx, MouseLocation.originaly, app, this);
                 app.processTransaction(trans);
             });
@@ -68,13 +75,50 @@ public GoLogoDataText(String text){
             }
         });
     }
+
+    public GoLogoDataText(String text, GoLogoLoApp app, Font font, boolean bold, boolean italics, double x, double y) {
+        this(text, app);
+        this.font=font;
+        if(bold){
+            this.setFont(Font.font(font.getName(), FontWeight.BOLD, font.getSize()));
+        }
+        if(italics){
+            this.setFont(Font.font(font.getName(), FontPosture.ITALIC, font.getSize()));
+        }
+        this.xCoordinate=x;
+        this.yCoordinate=y;
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+    }
     
-    public GoLogoDataText clone(String text, GoLogoLoApp app){
-        return new GoLogoDataText(text, app);
+    public GoLogoDataText(String text, GoLogoLoApp app, Font font, boolean bold, boolean italics, double x, double y, Color color) {
+        this(text, app);
+        this.font=font;
+        if(bold){
+            this.setFont(Font.font(font.getName(), FontWeight.BOLD, font.getSize()));
+        }
+        if(italics){
+            this.setFont(Font.font(font.getName(), FontPosture.ITALIC, font.getSize()));
+        }
+        this.xCoordinate=x;
+        this.yCoordinate=y;
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+        this.setFill(color);
+    }
+    
+    public GoLogoDataText clone(String text, GoLogoLoApp app, Font font, boolean isBold, boolean isItalics, double xcoordinate, double ycoordinate){
+        return new GoLogoDataText(text, app, font, isBold, isItalics, xcoordinate, ycoordinate);
     }
     
     public void setTextFont(Font newfont){
         this.font=newfont;
         this.setFont(newfont);
+    }
+    public void setFillColor(Color color) {
+        this.fillColor=color;
+    }
+    public Color getFillColor() {
+        return fillColor;
     }
 }
