@@ -63,24 +63,19 @@ public class GoLogoClipboard implements AppClipboardComponent {
     @Override
     public void paste() {
         GoLogoData data = (GoLogoData)app.getDataComponent();
-        if (data.isItemSelected()) {
-            ArrayList<Node> nodesToAdd = data.getSelectedNodes();
-            Node node = nodesToAdd.get(0);
-            int selectedIndex = data.getItemIndex(data.getSelectedItem());  
             ArrayList<GoLogoDataPrototype> pasteItems = clipboardCutItems;
             if ((clipboardCutItems != null)
                     && (!clipboardCutItems.isEmpty())) {
-                PasteItem_Transaction transaction = new PasteItem_Transaction(app, clipboardCutItems, selectedIndex, node);
+                PasteItem_Transaction transaction = new PasteItem_Transaction(app, clipboardCutItems);
                 app.processTransaction(transaction);
-                copyToCutClipboard(clipboardCopiedItems);
+          //      copyToCutClipboard(clipboardCopiedItems);
             }
             else if ((clipboardCopiedItems != null)
                     && (!clipboardCopiedItems.isEmpty())) {
-                PasteItem_Transaction transaction = new PasteItem_Transaction(app, clipboardCopiedItems, selectedIndex, node);
+                PasteItem_Transaction transaction = new PasteItem_Transaction(app, clipboardCopiedItems);
                 app.processTransaction(transaction);
-                copyToCopiedClipboard(clipboardCopiedItems);
+           //     copyToCopiedClipboard(clipboardCopiedItems);
             }
-        }
     }
 
     @Override

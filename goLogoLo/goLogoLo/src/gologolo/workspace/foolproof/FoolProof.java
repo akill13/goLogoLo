@@ -9,7 +9,10 @@ import djf.modules.AppGUIModule;
 import djf.ui.foolproof.FoolproofDesign;
 import gologolo.GoLogoLoApp;
 import static gologolo.GoLogoPropertyType.GOLO_BORDER_PANE;
+import static gologolo.GoLogoPropertyType.GOLO_BORDER_RADIUS_BOX;
+import static gologolo.GoLogoPropertyType.GOLO_COLOR_RADIUS_SLIDER;
 import static gologolo.GoLogoPropertyType.GOLO_DOWN_BUTTON;
+import static gologolo.GoLogoPropertyType.GOLO_EDIT_BUTTON;
 import static gologolo.GoLogoPropertyType.GOLO_EDIT_TEXT_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_GRADIENT_PANE;
 import static gologolo.GoLogoPropertyType.GOLO_UP_BUTTON;
@@ -38,6 +41,14 @@ public class FoolProof implements FoolproofDesign {
             gui.getGUINode(GOLO_EDIT_TEXT_PANE).setDisable(pro.getType().equals("Circle") || pro.getType().equals("Rectangle") || pro.getType().equals("Image"));
             gui.getGUINode(GOLO_UP_BUTTON).setDisable(pro.getOrder()-1==0);
             gui.getGUINode(GOLO_DOWN_BUTTON).setDisable(pro.getOrder()  == data.getNumItems());
+            gui.getGUINode(GOLO_UP_BUTTON).setDisable(!isItemSelected);
+            gui.getGUINode(GOLO_DOWN_BUTTON).setDisable(!isItemSelected);
+            gui.getGUINode(GOLO_EDIT_BUTTON).setDisable(!isItemSelected);
+            gui.getGUINode(GOLO_BORDER_RADIUS_BOX).setDisable(pro.getType().equals("Circle"));
+       }else if(!isItemSelected) {
+           gui.getGUINode(GOLO_UP_BUTTON).setDisable(!isItemSelected);
+           gui.getGUINode(GOLO_DOWN_BUTTON).setDisable(!isItemSelected);
+           gui.getGUINode(GOLO_EDIT_BUTTON).setDisable(!isItemSelected);
        }
     }
     

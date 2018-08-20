@@ -7,6 +7,7 @@ package gologolo.data;
 
 
 import gologolo.GoLogoLoApp;
+import gologolo.workspace.controllers.LogoController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -84,6 +85,8 @@ public class GoLogoDataPrototype implements Cloneable {
         type = new SimpleStringProperty();
         shape = false;
         image = null;
+        LogoController control = LogoController.getController();
+        this.app=control.getApp();
     }
     public GoLogoDataPrototype(int width, int height, String color, int thickness, int borderRadius, int angle, int distance, int centerX, int centerY, int gradientRadius, String cycle, String name) {
         this();

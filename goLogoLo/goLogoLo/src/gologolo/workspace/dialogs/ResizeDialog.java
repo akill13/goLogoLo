@@ -15,6 +15,7 @@ import static gologolo.GoLogoPropertyType.OK_BUTTON_RESIZE;
 import static gologolo.GoLogoPropertyType.RESIZE_HEIGHT;
 import static gologolo.GoLogoPropertyType.RESIZE_WIDTH;
 import static gologolo.GoLogoPropertyType.WIDTH_RESIZE_TEXT_FIELD;
+import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_DIALOG_PROMPT;
 
 import static gologolo.workspace.style.gologoloStyle.CLASS_GOLO_PANE;
 import javafx.geometry.Pos;
@@ -64,11 +65,11 @@ public class ResizeDialog extends Stage {
     }
 
     private void createDialogs() {
-       createGridNodes(height, RESIZE_HEIGHT, null, 0, 1, 1, 1, true);
-       createGridNodes(heightInput, HEIGHT_RESIZE_TEXT_FIELD, null, 1, 1, 1, 1, false);
-       createGridNodes(width, RESIZE_WIDTH, null, 0, 2, 1, 1, true);
-       createGridNodes(widthInput, WIDTH_RESIZE_TEXT_FIELD, null, 1, 2, 1, 1, false);
-       createGridNodes(buttonBox, BUTTON_HBOX, null, 1, 3, 1, 1, false);
+       createGridNodes(height, RESIZE_HEIGHT, CLASS_GOLO_DIALOG_PROMPT, 0, 1, 1, 1, true);
+       createGridNodes(heightInput, HEIGHT_RESIZE_TEXT_FIELD, CLASS_GOLO_DIALOG_PROMPT, 1, 1, 1, 1, false);
+       createGridNodes(width, RESIZE_WIDTH, CLASS_GOLO_DIALOG_PROMPT, 0, 2, 1, 1, true);
+       createGridNodes(widthInput, WIDTH_RESIZE_TEXT_FIELD, CLASS_GOLO_DIALOG_PROMPT, 1, 2, 1, 1, false);
+       createGridNodes(buttonBox, BUTTON_HBOX, CLASS_GOLO_DIALOG_PROMPT, 1, 3, 1, 1, false);
        app.getGUIModule().addGUINode(OK_BUTTON_RESIZE, resizeOk);
        app.getGUIModule().addGUINode(CANCEL_BUTTON_RESIZE, resizeCancel);
        buttonBox.getChildren().add(resizeOk);
@@ -84,6 +85,7 @@ public class ResizeDialog extends Stage {
         resizeCancel.setOnAction(e->{
             this.hide();
         });
+        
     }
     
     protected void createGridNodes(Node node, Object nodeId, String styleClass, int col, int row, int colSpan, int rowSpan, boolean isLanguageDependent) {

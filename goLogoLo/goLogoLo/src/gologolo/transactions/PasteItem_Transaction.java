@@ -21,39 +21,33 @@ import jtps.jTPS_Transaction;
 public class PasteItem_Transaction implements jTPS_Transaction {
     GoLogoLoApp app;
     ArrayList<GoLogoDataPrototype> itemsToPaste;
-    Node nodeToPaste;
-    int pasteIndex;
     Pane pane;
     GoLogoDataPrototype item;
     GoLogoDataPrototype add;
-    public PasteItem_Transaction(GoLogoLoApp app, 
-                                    ArrayList<GoLogoDataPrototype> itemsToPaste,
-                                    int pasteIndex, Node nodeToPaste){
+    GoLogoData tableInfo;
+    public PasteItem_Transaction(GoLogoLoApp app, ArrayList<GoLogoDataPrototype> itemsToPaste){
         this.app = app;
         this.itemsToPaste=itemsToPaste;
-        this.pasteIndex=pasteIndex;
-        this.nodeToPaste = nodeToPaste;
         pane = (Pane) app.getGUIModule().getGUINode(GOLO_IMAGE_PANE);
         this.item=itemsToPaste.get(0);
         this.add=item.clone();
+        this.tableInfo=(GoLogoData)app.getDataComponent();
     }
     @Override
     public void doTransaction() {
-      GoLogoData data = (GoLogoData)app.getDataComponent();
       if(add.getType().equals("Circle") || add.getType().equals("Rectangle") ) {
         pane.getChildren().add(add.node);
       }else if(add.getType().equals("Label")) {
           pane.getChildren().add(add.getText());
       }else if(add.getType().equals("Image")) {
-          pane.getChildren().add(add.getImage());
+          pane.getChildren().add(add.getImage());  
       }
-      data.addItem(add);
-      data.upDateOrder();
+      tableInfo.addItem(add);
+      tableInfo.upDateOrder();
     }
 
     @Override
     public void undoTransaction() {
-      GoLogoData data = (GoLogoData)app.getDataComponent();
       if(add.getType().equals("Circle") || add.getType().equals("Rectangle") ) {
         pane.getChildren().remove(add.node);
       }else if(add.getType().equals("Label")) {
@@ -61,8 +55,8 @@ public class PasteItem_Transaction implements jTPS_Transaction {
       }else if(add.getType().equals("Image")) {
           pane.getChildren().remove(add.getImage());
       }
-      data.removeItem(add);
-      data.upDateOrder();
+      tableInfo.removeItem(add);
+      tableInfo.upDateOrder();
     }
     
 }

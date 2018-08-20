@@ -656,4 +656,8 @@ public class LogoController {
             }
         }
     }
+    
+    public GoLogoLoApp getApp() {
+        return app;
+    }
 }

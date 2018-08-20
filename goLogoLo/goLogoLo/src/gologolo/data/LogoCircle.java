@@ -5,6 +5,7 @@
  */
 package gologolo.data;
 
+import gologolo.transactions.ChangeSizeCircle_Transaction;
 import gologolo.GoLogoLoApp;
 import static gologolo.GoLogoPropertyType.BORDER_THICKNESS_SLIDER;
 import static gologolo.GoLogoPropertyType.GOLO_ANGLE_BOX;

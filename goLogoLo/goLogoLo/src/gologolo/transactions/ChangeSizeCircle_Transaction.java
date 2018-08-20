@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gologolo.data;
+package gologolo.transactions;
 
 import gologolo.GoLogoLoApp;
+import gologolo.data.LogoCircle;
 import jtps.jTPS_Transaction;
 
 /**
